@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SWAASTRIX - Ayurvedic Healthcare Demo</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="firebase.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -122,6 +126,34 @@
           >
             Login
           </button>
+
+          <!-- Divider -->
+          <div class="relative my-4">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-secondary dark:border-secondary"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-backgroundLight text-secondary dark:bg-backgroundDark dark:text-textDark">Or continue with</span>
+            </div>
+          </div>
+
+          <!-- Google Sign-In Button -->
+          <button
+            type="button"
+            id="google-signin-btn"
+            class="w-full p-3 bg-white dark:bg-backgroundDark border border-secondary rounded font-semibold hover:bg-gray-50 dark:hover:bg-secondary/20 transition flex items-center justify-center gap-3 text-textLight dark:text-textDark"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Sign in with Google
+          </button>
+          <p class="text-xs text-secondary dark:text-textDark text-center mt-2">
+            MVP Demo: Any credentials will work
+          </p>
         </form>
       </section>
     </main>
@@ -745,6 +777,121 @@
         document.title = 'SWAASTRIX - Admin Dashboard';
       }
     });
+
+    // Google Sign-In functionality with Firebase Auth
+    // Uses signInWithPopup for immediate email chooser popup
+    const handleGoogleSignIn = async () => {
+      try {
+        console.log('🔵 Google Sign-In button clicked');
+        
+        // Ensure Firebase is initialized
+        if (!window.firebaseAuth || !window.googleProvider) {
+          console.error('❌ Firebase not initialized');
+          alert('Firebase is not initialized. Please check your configuration in firebase.js and ensure Firebase SDK is loaded.');
+          return;
+        }
+
+        // Check if Firebase config is valid
+        if (window.firebaseAuth.app.options.apiKey === 'YOUR_API_KEY' || !window.firebaseAuth.app.options.apiKey) {
+          alert('⚠️ Firebase API Key not configured! Please update firebase.js with your Firebase project configuration.\n\nGet your config from: Firebase Console > Project Settings > Your apps > Web App');
+          return;
+        }
+
+        // STEP 1: FORCE POPUP (MOST IMPORTANT) - Using signInWithPopup, NOT redirect
+        // ✅ CORRECT: signInWithPopup opens popup immediately
+        // ❌ WRONG: signInWithRedirect would cause handler page redirect
+        
+        console.log('✅ Triggering Google Sign-In popup...');
+        console.log('🌐 Auth domain:', window.firebaseAuth.app.options.authDomain);
+        console.log('📋 Using signInWithPopup (popup method) - NOT redirect');
+        
+        // Immediately trigger popup - no delays, no extra logic
+        // This opens Google email chooser in a popup window
+        const result = await window.firebaseAuth.signInWithPopup(window.googleProvider);
+        const user = result.user;
+
+        console.log('✅ Google Sign-In successful!');
+        console.log('👤 User:', user.email, user.displayName);
+
+        // Get selected user type or default to 'patient'
+        const userType = userTypeSelect.value.trim();
+        const selectedUserType = userType || 'patient';
+
+        // Redirect to dashboard based on selected role
+        loginPage.classList.add('hidden');
+
+        if (selectedUserType === 'doctor') {
+          doctorDashboard.classList.remove('hidden');
+          showSection('doctor-patients');
+          document.title = 'SWAASTRIX - Doctor Dashboard';
+        } else if (selectedUserType === 'patient') {
+          patientDashboard.classList.remove('hidden');
+          showSection('my-diet');
+          document.title = 'SWAASTRIX - Patient Dashboard';
+        } else if (selectedUserType === 'admin') {
+          adminDashboard.classList.remove('hidden');
+          showSection('admin-approve-doctors');
+          document.title = 'SWAASTRIX - Admin Dashboard';
+        }
+      } catch (error) {
+        console.error('❌ Google Sign-In Error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        
+        if (error.code === 'auth/popup-closed-by-user') {
+          // User closed the popup - no need to show error
+          console.log('ℹ️ User closed the popup');
+          return;
+        }
+        if (error.code === 'auth/popup-blocked') {
+          alert('⚠️ Popup was blocked. Please allow popups for this site and try again.');
+          return;
+        }
+        if (error.code === 'auth/unauthorized-domain') {
+          const currentDomain = window.location.hostname;
+          const currentPort = window.location.port ? ':' + window.location.port : '';
+          const fullDomain = currentDomain + currentPort;
+          
+          console.error('❌ Unauthorized domain:', fullDomain);
+          console.error('📋 Add this domain to Firebase Console:');
+          console.error('   1. Go to: Firebase Console > Authentication > Settings');
+          console.error('   2. Scroll to "Authorized domains"');
+          console.error('   3. Click "Add domain"');
+          console.error('   4. Add:', currentDomain === 'localhost' ? 'localhost' : currentDomain);
+          
+          alert(`⚠️ Domain not authorized!\n\nCurrent domain: ${fullDomain}\n\nPlease add "${currentDomain === 'localhost' ? 'localhost' : currentDomain}" to:\nFirebase Console > Authentication > Settings > Authorized domains\n\nNote: For localhost, just add "localhost" (port not needed)`);
+          return;
+        }
+        if (error.code === 'auth/operation-not-allowed') {
+          alert('⚠️ Google Sign-In is not enabled. Please enable it in Firebase Console > Authentication > Sign-in method');
+          return;
+        }
+        if (error.code === 'auth/invalid-api-key' || error.code === 'auth/api-key-not-valid') {
+          alert('⚠️ Invalid Firebase API Key. Please check your firebase.js configuration.');
+          return;
+        }
+        
+        // Show user-friendly error for other errors
+        alert('Google Sign-In failed: ' + (error.message || 'Please try again or use regular login.'));
+      }
+    };
+
+    // Wait for DOM to be ready, then attach handler
+    const googleSignInBtn = document.getElementById('google-signin-btn');
+    if (googleSignInBtn) {
+      googleSignInBtn.addEventListener('click', handleGoogleSignIn);
+      console.log('✅ Google Sign-In button handler attached');
+    } else {
+      console.error('❌ Google Sign-In button not found!');
+      // Try again when DOM is fully loaded
+      window.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('google-signin-btn');
+        if (btn) {
+          btn.addEventListener('click', handleGoogleSignIn);
+          console.log('✅ Google Sign-In button handler attached (after DOMContentLoaded)');
+        }
+      });
+    }
 
     // Show/hide dashboard sections
     function showSection(sectionId) {

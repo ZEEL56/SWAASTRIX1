@@ -1,0 +1,16 @@
+{
+  "name": "swaastrix",
+  "version": "1.0.0",
+  "description": "SWAASTRIX - Ayurvedic Healthcare Demo",
+  "scripts": {
+    "start": "powershell -ExecutionPolicy Bypass -File start-server-script.ps1",
+    "dev": "powershell -ExecutionPolicy Bypass -File start-server-script.ps1",
+    "stop": "powershell -ExecutionPolicy Bypass -File stop-server.ps1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^12.8.0"
+  }
+}
