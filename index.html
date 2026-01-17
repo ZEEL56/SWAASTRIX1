@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SWAASTRIX - Ayurvedic Healthcare Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1E40AF',   // deep blue
+            secondary: '#64748B', // slate gray
+            accent: '#059669',    // emerald green
+            backgroundLight: '#F9FAFB',
+            backgroundDark: '#111827',
+            textLight: '#1E293B',
+            textDark: '#E0E7FF',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark transition-all">
+  <div id="app" class="min-h-screen flex flex-col">
+    <!-- Header/Navbar -->
+    <header class="flex justify-between items-center p-4 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900">
+      <div class="flex items-center">
+        <img
+          src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/874d8959-696f-4c71-8dee-5e18d48de5ba.png"
+          alt="SWAASTRIX logo featuring a modern herbal leaf symbol intertwined with a medical caduceus, representing traditional Ayurvedic healing in a tech-forward design"
+          class="h-10 w-10 rounded-full"
+        />
+        <h1 class="ml-2 text-xl font-semibold text-primary">SWAASTRIX</h1>
+      </div>
+      <div class="flex space-x-4 items-center">
+        <button
+          id="theme-toggle"
+          class="px-4 py-2 bg-secondary rounded text-white hover:bg-secondary/80 dark:bg-secondary dark:hover:bg-secondary/80 transition"
+          aria-label="Toggle Dark Mode"
+        >
+          Dark Mode
+        </button>
+        <label for="lang-select" class="sr-only">Select Language</label>
+        <select
+          id="lang-select"
+          class="px-3 py-2 border border-secondary rounded bg-backgroundLight text-textLight focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+          aria-live="polite"
+        >
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="gu">Gujarati</option>
+        </select>
+      </div>
+    </header>
+
+    <!-- Login Page -->
+    <main
+      id="login-page"
+      class="flex-grow flex items-center justify-center bg-gradient-to-r from-primary to-accent dark:from-backgroundDark dark:to-secondary fade-in"
+    >
+      <section
+        class="bg-backgroundLight p-8 rounded-lg shadow-lg w-full max-w-md dark:bg-backgroundDark"
+        role="main"
+        aria-label="Login form"
+      >
+        <img
+          src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f7383676-bd51-419c-b2ba-2d43109d4090.png"
+          alt="SWAASTRIX logo featuring a modern herbal leaf symbol intertwined with a medical caduceus, representing traditional Ayurvedic healing in a tech-forward design"
+          class="mx-auto mb-6 h-12 w-12 rounded-full"
+        />
+        <h2 class="text-2xl font-semibold text-center mb-6 text-primary">Welcome to SWAASTRIX</h2>
+        <form id="login-form" class="space-y-4" novalidate>
+          <label for="user-type" class="block font-medium">Login as</label>
+          <select
+            id="user-type"
+            class="w-full p-3 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            required
+            aria-required="true"
+          >
+            <option value="" disabled selected>Select User Type</option>
+            <option value="doctor">Doctor</option>
+            <option value="patient">Patient</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <label for="username" class="block font-medium">Username</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            class="w-full p-3 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            required
+            aria-required="true"
+          />
+
+          <label for="password" class="block font-medium">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            class="w-full p-3 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            required
+            aria-required="true"
+          />
+
+          <button
+            type="submit"
+            class="w-full p-3 bg-primary text-white rounded font-semibold hover:bg-primary/90 transition"
+          >
+            Login
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <!-- Doctor Dashboard -->
+    <section id="doctor-dashboard" class="hidden flex flex-grow">
+      <nav
+        class="w-64 bg-secondary p-6 min-h-screen flex flex-col text-white dark:bg-backgroundDark"
+        aria-label="Doctor dashboard navigation"
+      >
+        <h3 class="text-lg font-semibold mb-6">Doctor Dashboard</h3>
+        <ul class="space-y-3 flex-grow">
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('doctor-patients')"
+            >
+              Patient Management
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('diet-generator')"
+            >
+              Diet Chart Generator
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('doctor-payments')"
+            >
+              Payments & Billing
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('reports-analytics')"
+            >
+              Reports & Analytics
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('teleconsult')"
+            >
+              Teleconsultation
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('ai-assistant')"
+            >
+              AI Assistant
+            </button>
+          </li>
+        </ul>
+      </nav>
+      <main class="flex-1 p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+        <section id="doctor-patients" class="fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Patient Management</h2>
+          <input
+            type="search"
+            placeholder="Search patients by name, age, or condition"
+            class="w-full p-3 mb-6 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            aria-label="Search patients"
+          />
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <article
+              class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
+              aria-label="Patient Ravi Kumar, age 35, condition Vata Imbalance"
+            >
+              <h3 class="text-xl font-semibold mb-1 text-primary">Ravi Kumar</h3>
+              <p class="text-secondary dark:text-textDark">Age: 35</p>
+              <p class="text-secondary dark:text-textDark">Condition: Vata Imbalance</p>
+              <button
+                class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+                aria-label="View patient history timeline for Ravi Kumar"
+              >
+                View History Timeline
+              </button>
+            </article>
+            <article
+              class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
+              aria-label="Patient Priya Sharma, age 28, condition Pitta"
+            >
+              <h3 class="text-xl font-semibold mb-1 text-primary">Priya Sharma</h3>
+              <p class="text-secondary dark:text-textDark">Age: 28</p>
+              <p class="text-secondary dark:text-textDark">Condition: Pitta</p>
+              <button
+                class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+                aria-label="View patient history timeline for Priya Sharma"
+              >
+                View History Timeline
+              </button>
+            </article>
+          </div>
+        </section>
+
+        <section id="diet-generator" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Diet Chart Generator</h2>
+          <form class="flex flex-wrap items-center gap-4 mb-6" aria-label="Diet chart filter form">
+            <label for="prakriti-select" class="font-medium text-secondary dark:text-textDark">Prakriti:</label>
+            <select
+              id="prakriti-select"
+              class="p-3 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            >
+              <option value="vata">Vata</option>
+              <option value="pitta">Pitta</option>
+              <option value="kapha">Kapha</option>
+            </select>
+            <button
+              type="button"
+              id="generate-diet-btn"
+              class="px-6 py-3 bg-accent text-white rounded font-semibold hover:bg-accent/90 transition"
+            >
+              Generate AI Diet Chart
+            </button>
+          </form>
+          <article
+            class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <h3 class="text-xl font-semibold mb-3 text-primary">Sample Diet Plan</h3>
+            <ul class="list-disc list-inside space-y-1 text-secondary dark:text-textDark">
+              <li>Breakfast: Oatmeal with ghee</li>
+              <li>Lunch: Vegetable stir-fry with quinoa</li>
+              <li>Snack: Fresh coconut water</li>
+              <li>Dinner: Warm lentil soup</li>
+            </ul>
+            <button
+              class="mt-6 px-5 py-2 bg-accent text-white rounded hover:bg-accent/90 transition"
+              aria-label="Export diet chart as PDF"
+            >
+              Export as PDF
+            </button>
+          </article>
+        </section>
+
+        <section id="doctor-payments" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Payments & Billing</h2>
+          <article
+            class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
+            aria-label="Payments overview"
+          >
+            <p class="text-lg mb-4 text-secondary dark:text-textDark">Pending Payments: <strong>$50</strong> from Ravi Kumar</p>
+            <button
+              class="px-5 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+              aria-label="Generate invoice"
+            >
+              Generate Invoice
+            </button>
+          </article>
+        </section>
+
+        <section id="reports-analytics" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Reports & Analytics</h2>
+          <img
+            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/693e5fe8-f1db-43d4-956e-928016ab81ee.png"
+            alt="Graph showing patient progress: weight, energy levels, digestion score, and diet compliance percentage"
+            class="w-full rounded shadow"
+          />
+        </section>
+
+        <section id="teleconsult" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Teleconsultation</h2>
+          <button
+            class="px-8 py-3 bg-accent text-white rounded hover:bg-accent/90 transition"
+            aria-label="Start mock video call between doctor and patient"
+          >
+            Start Mock Video Call
+          </button>
+        </section>
+
+        <section id="ai-assistant" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">AI Assistant</h2>
+          <label for="doctor-ai-input" class="sr-only">Ask AI for diet suggestions or remedies</label>
+          <input
+            type="text"
+            id="doctor-ai-input"
+            placeholder="Ask AI for diet suggestions or remedies..."
+            class="w-full p-3 mb-4 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            aria-autocomplete="list"
+          />
+          <div
+            class="p-4 bg-accent/20 rounded text-accent"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <p>AI: Try adding turmeric to meals for anti-inflammatory benefits.</p>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <!-- Patient Dashboard -->
+    <section id="patient-dashboard" class="hidden flex flex-grow">
+      <nav
+        class="w-64 bg-secondary p-6 min-h-screen flex flex-col text-white dark:bg-backgroundDark"
+        aria-label="Patient dashboard navigation"
+      >
+        <h3 class="text-lg font-semibold mb-6">Patient Dashboard</h3>
+        <ul class="space-y-3 flex-grow">
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('my-diet')"
+            >
+              My Diet Chart
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('pay-fees')"
+            >
+              Payments
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('chatbot')"
+            >
+              AI Doctor Chatbot
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('progress')"
+            >
+              Progress Tracker
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('community')"
+            >
+              Community
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('emergency')"
+            >
+              Emergency Help
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('scanner')"
+            >
+              Voice Assistant
+            </button>
+          </li>
+        </ul>
+      </nav>
+      <main class="flex-1 p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+        <section id="my-diet" class="fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">My Diet Chart</h2>
+          <article
+            class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
+            aria-label="Today's diet plan with interactive meal tracker"
+          >
+            <h3 class="text-xl font-semibold mb-4 text-primary">Today's Meals</h3>
+            <ul class="space-y-3 text-secondary dark:text-textDark">
+              <li class="flex items-center space-x-3">
+                <input type="checkbox" id="meal-breakfast" aria-label="Mark breakfast as completed" class="accent-primary" />
+                <label for="meal-breakfast">Breakfast: Oats</label>
+              </li>
+              <li class="flex items-center space-x-3">
+                <input type="checkbox" id="meal-lunch" aria-label="Mark lunch as completed" class="accent-primary" />
+                <label for="meal-lunch">Lunch: Dal Soup</label>
+              </li>
+              <li class="flex items-center space-x-3">
+                <input type="checkbox" id="meal-snack" aria-label="Mark snack as completed" class="accent-primary" />
+                <label for="meal-snack">Snack: Coconut Water</label>
+              </li>
+            </ul>
+          </article>
+        </section>
+
+        <section id="pay-fees" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Payments</h2>
+          <button
+            class="px-6 py-3 bg-primary text-white rounded hover:bg-primary/90 transition"
+            aria-label="Pay consultation fee dummy button"
+          >
+            Pay Consultation Fee (Dummy)
+          </button>
+          <button
+            class="ml-4 px-5 py-2 bg-accent text-white rounded hover:bg-accent/90 transition"
+            aria-label="Download receipt"
+          >
+            Download Receipt
+          </button>
+        </section>
+
+        <section id="chatbot" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">AI Doctor Chatbot</h2>
+          <div class="mb-4 space-y-2">
+            <div class="p-3 bg-secondary/20 rounded dark:bg-secondary/10">You: What should I eat if I feel acidity?</div>
+            <div class="p-3 bg-accent/20 rounded">AI: Eat cooling foods like cucumber. Avoid spices.</div>
+          </div>
+          <label for="patient-ai-input" class="sr-only">Ask a dietary or health-related question</label>
+          <input
+            type="text"
+            id="patient-ai-input"
+            placeholder="Ask a question..."
+            class="w-full p-3 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary mb-4"
+            aria-autocomplete="list"
+          />
+          <button
+            class="px-5 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+            aria-label="Send question to AI chatbot"
+          >
+            Send
+          </button>
+        </section>
+
+        <section id="progress" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Progress Tracker</h2>
+          <img
+            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4f13bc6c-8ddb-4cf8-a728-7339071ce572.png"
+            alt="Line graph showing steady weight loss from 80kg to 75kg, energy level rising from 5 to 8, digestion score improving to 85%, with notification alerts for wellness tips like drinking warm water"
+            class="w-full rounded shadow"
+          />
+        </section>
+
+        <section id="community" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Community</h2>
+          <article
+            class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
+            aria-label="Community discussion sample"
+          >
+            <p class="text-secondary dark:text-textDark">Share recipes: Try ginger tea for immunity!</p>
+          </article>
+        </section>
+
+        <section id="emergency" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Emergency Help</h2>
+          <button
+            class="px-6 py-3 bg-accent text-white rounded hover:bg-accent/90 transition"
+            aria-label="Contact doctor or emergency services dummy link"
+          >
+            Contact Doctor (Dummy)
+          </button>
+        </section>
+
+        <section id="scanner" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Food Scanner</h2>
+          <input
+            type="file"
+            accept="image/*"
+            class="mb-4"
+            aria-label="Upload food image for Ayurveda analysis"
+          />
+          <button
+            class="px-6 py-3 bg-accent text-white rounded hover:bg-accent/90 transition"
+            aria-label="Scan image for Ayurvedic properties"
+          >
+            Scan for Ayurveda Properties
+          </button>
+          <div
+            class="mt-4 p-4 bg-accent/10 rounded"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <p class="text-accent">Result: High pitta, suggest cooling herbs.</p>
+          </div>
+        </section>
+
+        <section id="voice" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Voice Assistant</h2>
+          <button
+            class="px-6 py-3 bg-accent text-white rounded hover:bg-accent/90 transition"
+            aria-label="Activate voice assistant for queries"
+          >
+            Speak Query (Mock)
+          </button>
+          <p class="mt-4 text-secondary dark:text-textDark">Voice captured: "Diet for acidity?"</p>
+        </section>
+      </main>
+    </section>
+
+    <!-- Admin Dashboard -->
+    <section id="admin-dashboard" class="hidden flex flex-grow">
+      <nav
+        class="w-64 bg-secondary p-6 min-h-screen flex flex-col text-white dark:bg-backgroundDark"
+        aria-label="Admin dashboard navigation"
+      >
+        <h3 class="text-lg font-semibold mb-6">Admin Dashboard</h3>
+        <ul class="space-y-3 flex-grow">
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('admin-approve-doctors')"
+            >
+              Approve Doctors
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('admin-manage-patients')"
+            >
+              Manage Patient Records
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('admin-case-studies')"
+            >
+              Case Studies & Success Stories
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('admin-feedback')"
+            >
+              Feedback & Reviews
+            </button>
+          </li>
+        </ul>
+      </nav>
+      <main class="flex-1 p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+        <section id="admin-approve-doctors" class="fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Approve Doctors</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Anjali Singh</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Ayurvedic Physician</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Anjali Singh Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Anjali Singh Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Rohan Mehta</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Panchakarma Expert</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Rohan Mehta Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Rohan Mehta Rejected!')">Reject</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="admin-manage-patients" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Manage Patient Records</h2>
+          <input
+            type="search"
+            placeholder="Search patients by name or ID"
+            class="w-full p-3 mb-6 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            aria-label="Search patient records"
+          />
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Ravi Kumar (ID: P001)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Sharma</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Ravi Kumar\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Ravi Kumar\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Priya Sharma (ID: P002)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Gupta</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Priya Sharma\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Priya Sharma\'s record!')">Delete</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="admin-case-studies" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Case Studies & Success Stories</h2>
+          <button
+            class="px-6 py-3 bg-accent text-white rounded font-semibold hover:bg-accent/90 transition mb-6"
+            onclick="alert('Add New Case Study Form!')"
+          >
+            Add New Case Study
+          </button>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Weight Loss Journey: Patient A</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Lost 15kg in 3 months with Vata-Pitta diet.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Digestion Improvement: Patient B</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Resolved chronic indigestion with Kapha-balancing diet.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="admin-feedback" class="hidden fade-in">
+          <h2 class="text-3xl font-semibold mb-6 text-primary">Feedback & Reviews</h2>
+          <div class="space-y-6">
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Patient Feedback (Ravi Kumar)</h3>
+              <p class="text-secondary dark:text-textDark">"The diet chart was very helpful, feeling much better!"</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to feedback!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive feedback!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Doctor Review (Dr. Anjali)</h3>
+              <p class="text-secondary dark:text-textDark">"Platform is intuitive, patient management is streamlined."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to review!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive review!')">Archive</button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    // Dark mode toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      themeToggle.textContent = body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
+    });
+
+    // Language toggle mock
+    const langSelect = document.getElementById('lang-select');
+    let originalTitles = {};
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('h2, h3').forEach(element => {
+        // Store original text content, using element.id for uniqueness
+        if (element.id) { // Ensure element has an ID to store its original title
+            originalTitles[element.id] = element.textContent;
+        }
+      });
+    });
+    langSelect.addEventListener('change', () => {
+      const lang = langSelect.value;
+      document.querySelectorAll('h2, h3').forEach(element => {
+        if (element.id && originalTitles[element.id]) { // Check if original title exists for this element
+            const original = originalTitles[element.id];
+            element.textContent = lang === 'hi' ? `${original} (हिंदी में)` : lang === 'sa' ? `${original} (संस्कृत में)` : original;
+        }
+      });
+    });
+
+    // Login functionality - Fixed
+    const loginForm = document.getElementById('login-form');
+    const loginPage = document.getElementById('login-page');
+    const doctorDashboard = document.getElementById('doctor-dashboard');
+    const patientDashboard = document.getElementById('patient-dashboard');
+    const adminDashboard = document.getElementById('admin-dashboard'); // New Admin Dashboard
+    const userTypeSelect = document.getElementById('user-type');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password'); // Renamed from otpInput
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const userType = userTypeSelect.value.trim();
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim(); // Renamed from otp
+
+      if (!userType) {
+        alert('Please select a user type.');
+        userTypeSelect.focus();
+        return;
+      }
+      if (!username) {
+        alert('Please enter your username.');
+        usernameInput.focus();
+        return;
+      }
+      if (!password) { // Updated validation
+        alert('Please enter your password.'); // Updated alert message
+        passwordInput.focus();
+        return;
+      }
+
+      // Redirect to dashboard
+      loginPage.classList.add('hidden');
+
+      if (userType === 'doctor') {
+        doctorDashboard.classList.remove('hidden');
+        showSection('doctor-patients');
+        document.title = 'SWAASTRIX - Doctor Dashboard';
+      } else if (userType === 'patient') {
+        patientDashboard.classList.remove('hidden');
+        showSection('my-diet');
+        document.title = 'SWAASTRIX - Patient Dashboard';
+      } else if (userType === 'admin') { // Handle Admin login
+        adminDashboard.classList.remove('hidden');
+        showSection('admin-approve-doctors'); // Default section for Admin
+        document.title = 'SWAASTRIX - Admin Dashboard';
+      }
+    });
+
+    // Show/hide dashboard sections
+    function showSection(sectionId) {
+      // Hide all dashboard sections
+      document.querySelectorAll('#doctor-dashboard main section').forEach(s => s.classList.add('hidden'));
+      document.querySelectorAll('#patient-dashboard main section').forEach(s => s.classList.add('hidden'));
+      document.querySelectorAll('#admin-dashboard main section').forEach(s => s.classList.add('hidden')); // Hide admin sections
+
+      // Show requested section if exists
+      const section = document.getElementById(sectionId);
+      if (section) section.classList.remove('hidden');
+    }
+
+    // Mock button interactions
+    document.addEventListener('click', (e) => {
+      if (e.target.matches('#generate-diet-btn')) {
+        alert('Diet chart generated and displayed above!');
+      } else if (e.target.textContent.includes('Dummy')) {
+        alert('Mock action executed!');
+      } else if (e.target.textContent.includes('Send')) {
+        alert('Question sent to AI!');
+      }
+    });
+
+    // Initialize
+    window.addEventListener('load', () => {
+      // No alerts on load
+    });
+  </script>
+</body>
+</html>
