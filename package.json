@@ -11,6 +11,24 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase": "^12.8.0"
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "firebase": "^12.8.0",
+    "firebase-admin": "^13.6.0",
+    "pg": "^8.17.2"
+  },
+  "main": "firebase.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZEEL56/SWAASTRIX1.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ZEEL56/SWAASTRIX1/issues"
+  },
+  "homepage": "https://github.com/ZEEL56/SWAASTRIX1#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }

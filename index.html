@@ -37,10 +37,10 @@
     }
   </style>
 </head>
-<body class="bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark transition-all">
-  <div id="app" class="min-h-screen flex flex-col">
+<body class="bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark transition-all overflow-hidden">
+  <div id="app" class="min-h-screen grid grid-rows-[auto,1fr]">
     <!-- Header/Navbar -->
-    <header class="flex justify-between items-center p-4 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900">
+    <header class="flex justify-between items-center p-4 h-16 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900 z-10">
       <div class="flex items-center">
         <img
           src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/874d8959-696f-4c71-8dee-5e18d48de5ba.png"
@@ -57,23 +57,34 @@
         >
           Dark Mode
         </button>
-        <label for="lang-select" class="sr-only">Select Language</label>
-        <select
-          id="lang-select"
-          class="px-3 py-2 border border-secondary rounded bg-backgroundLight text-textLight focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
-          aria-live="polite"
-        >
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-          <option value="gu">Gujarati</option>
-        </select>
+        <div class="relative">
+          <button
+            id="help-button"
+            class="px-3 py-2 border border-secondary rounded bg-backgroundLight text-textLight hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="help-popover"
+          >
+            Help
+          </button>
+          <div
+            id="help-popover"
+            role="dialog"
+            aria-modal="false"
+            class="absolute right-0 mt-2 w-64 p-3 rounded shadow bg-white text-textLight dark:bg-backgroundDark dark:text-textDark border border-secondary hidden z-50 text-sm"
+          >
+            <p class="mb-1">Having trouble signing in?</p>
+            <p class="mb-1">&gt; Use "Forgot Password" to reset your credentials.</p>
+            <p>&gt; Contact support if the issue persists</p>
+          </div>
+        </div>  
       </div>
     </header>
 
     <!-- Login Page -->
     <main
       id="login-page"
-      class="flex-grow flex items-center justify-center bg-gradient-to-r from-primary to-accent dark:from-backgroundDark dark:to-secondary fade-in"
+      class="flex items-center justify-center bg-gradient-to-r from-primary to-accent dark:from-backgroundDark dark:to-secondary fade-in h-full overflow-hidden"
     >
       <section
         class="bg-backgroundLight p-8 rounded-lg shadow-lg w-full max-w-md dark:bg-backgroundDark"
@@ -109,7 +120,7 @@
             required
             aria-required="true"
           />
-
+          
           <label for="password" class="block font-medium">Password</label>
           <input
             type="password"
@@ -119,7 +130,8 @@
             required
             aria-required="true"
           />
-
+          <a id="forgot-password-link" href="#" class="block text-left text-sm text-secondary hover:text-primary">Forgot Password?</a>
+          <p id="reset-message" class="text-sm mt-1 hidden"></p>
           <button
             type="submit"
             class="w-full p-3 bg-primary text-white rounded font-semibold hover:bg-primary/90 transition"
@@ -247,6 +259,8 @@
               <h3 class="text-xl font-semibold mb-1 text-primary">Priya Sharma</h3>
               <p class="text-secondary dark:text-textDark">Age: 28</p>
               <p class="text-secondary dark:text-textDark">Condition: Pitta</p>
+              
+
               <button
                 class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
                 aria-label="View patient history timeline for Priya Sharma"
@@ -304,7 +318,7 @@
             class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
             aria-label="Payments overview"
           >
-            <p class="text-lg mb-4 text-secondary dark:text-textDark">Pending Payments: <strong>$50</strong> from Ravi Kumar</p>
+            <p class="text-lg mb-4 text-secondary dark:text-textDark">Pending Payments: <strong>₹50</strong> from Ravi Kumar</p>
             <button
               class="px-5 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
               aria-label="Generate invoice"
@@ -706,28 +720,28 @@
       body.classList.toggle('dark');
       themeToggle.textContent = body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
     });
-
-    // Language toggle mock
-    const langSelect = document.getElementById('lang-select');
-    let originalTitles = {};
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('h2, h3').forEach(element => {
-        // Store original text content, using element.id for uniqueness
-        if (element.id) { // Ensure element has an ID to store its original title
-            originalTitles[element.id] = element.textContent;
-        }
-      });
+</script>
+    <!-- Help popover (replaces language selector) -->
+  <script>
+  const helpBtn = document.getElementById('help-button');
+  const helpPopover = document.getElementById('help-popover');
+  if (helpBtn && helpPopover) {
+    helpBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = helpPopover.classList.contains('hidden');
+      helpPopover.classList.toggle('hidden');
+      helpBtn.setAttribute('aria-expanded', String(willOpen));
     });
-    langSelect.addEventListener('change', () => {
-      const lang = langSelect.value;
-      document.querySelectorAll('h2, h3').forEach(element => {
-        if (element.id && originalTitles[element.id]) { // Check if original title exists for this element
-            const original = originalTitles[element.id];
-            element.textContent = lang === 'hi' ? `${original} (हिंदी में)` : lang === 'sa' ? `${original} (संस्कृत में)` : original;
-        }
-      });
+    helpPopover.addEventListener('click', (e) => e.stopPropagation());
+    document.addEventListener('click', () => {
+      if (!helpPopover.classList.contains('hidden')) {
+        helpPopover.classList.add('hidden');
+        helpBtn.setAttribute('aria-expanded', 'false');
+      }
     });
-
+  }
+</script>
+ <script>
     // Login functionality - Fixed
     const loginForm = document.getElementById('login-form');
     const loginPage = document.getElementById('login-page');
@@ -737,7 +751,43 @@
     const userTypeSelect = document.getElementById('user-type');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password'); // Renamed from otpInput
-
+    // Forgot Password: Firebase sendPasswordResetEmail (inline success/error, no redirect)
+    const forgotLink = document.getElementById('forgot-password-link');
+    const resetMsg = document.getElementById('reset-message');
+    
+    if (forgotLink) {
+      forgotLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (resetMsg) resetMsg.className = 'text-sm mt-1'; // reset classes
+        const email = (usernameInput?.value || '').trim();
+        if (!email) {
+          if (resetMsg) {
+            resetMsg.textContent = 'Enter your email in the Username field to reset your password.';
+            resetMsg.classList.add('text-red-600');
+          }
+          return;
+        }
+        if (!window.firebaseAuth) {
+          if (resetMsg) {
+            resetMsg.textContent = 'Password reset unavailable. Firebase not initialized.';
+            resetMsg.classList.add('text-red-600');
+          }
+          return;
+        }
+        try {
+          await window.firebaseAuth.sendPasswordResetEmail(email);
+          if (resetMsg) {
+            resetMsg.textContent = 'Password reset email sent. Check your inbox.';
+            resetMsg.classList.add('text-green-600');
+          }
+        } catch (err) {
+          if (resetMsg) {
+            resetMsg.textContent = err?.message || 'Failed to send reset email.';
+            resetMsg.classList.add('text-red-600');
+          }
+        }
+      });
+    }
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const userType = userTypeSelect.value.trim();
@@ -762,7 +812,7 @@
 
       // Redirect to dashboard
       loginPage.classList.add('hidden');
-
+document.body.classList.remove('overflow-hidden');
       if (userType === 'doctor') {
         doctorDashboard.classList.remove('hidden');
         showSection('doctor-patients');
@@ -778,148 +828,108 @@
       }
     });
 
-    // Google Sign-In functionality with Firebase Auth
-    // Uses signInWithPopup for immediate email chooser popup
-    const handleGoogleSignIn = async () => {
-      try {
-        console.log('🔵 Google Sign-In button clicked');
-        
-        // Ensure Firebase is initialized
-        if (!window.firebaseAuth || !window.googleProvider) {
-          console.error('❌ Firebase not initialized');
-          alert('Firebase is not initialized. Please check your configuration in firebase.js and ensure Firebase SDK is loaded.');
-          return;
+   
+      const handleGoogleSignIn = async () => {
+        try {
+          if (!window.firebaseAuth || !window.googleProvider) {
+            alert('Firebase is not initialized. Please check your configuration.');
+            return;
+          }
+          if (window.firebaseAuth.app.options.apiKey === 'YOUR_API_KEY' || !window.firebaseAuth.app.options.apiKey) {
+            alert('Firebase API Key not configured.');
+            return;
+          }
+          await window.firebaseAuth.signInWithPopup(window.googleProvider);
+          const selectedUserType = (userTypeSelect.value.trim() || 'patient');
+          loginPage.classList.add('hidden');
+          document.body.classList.remove('overflow-hidden');
+          if (selectedUserType === 'doctor') {
+            doctorDashboard.classList.remove('hidden');
+            showSection('doctor-patients');
+            document.title = 'SWAASTRIX - Doctor Dashboard';
+          } else if (selectedUserType === 'patient') {
+            patientDashboard.classList.remove('hidden');
+            showSection('my-diet');
+            document.title = 'SWAASTRIX - Patient Dashboard';
+          } else if (selectedUserType === 'admin') {
+            adminDashboard.classList.remove('hidden');
+            showSection('admin-approve-doctors');
+            document.title = 'SWAASTRIX - Admin Dashboard';
+          }
+        } catch (error) {
+          if (error.code === 'auth/popup-closed-by-user') return;
+          if (error.code === 'auth/popup-blocked') { alert('Popup was blocked. Please allow popups and try again.'); return; }
+          if (error.code === 'auth/unauthorized-domain') { alert(`Domain not authorized: ${window.location.hostname}`); return; }
+          if (error.code === 'auth/operation-not-allowed') { alert('Google Sign-In is not enabled.'); return; }
+          if (error.code === 'auth/invalid-api-key' || error.code === 'auth/api-key-not-valid') { alert('Invalid Firebase API Key.'); return; }
+          alert('Google Sign-In failed. Please try again or use regular login.');
         }
-
-        // Check if Firebase config is valid
-        if (window.firebaseAuth.app.options.apiKey === 'YOUR_API_KEY' || !window.firebaseAuth.app.options.apiKey) {
-          alert('⚠️ Firebase API Key not configured! Please update firebase.js with your Firebase project configuration.\n\nGet your config from: Firebase Console > Project Settings > Your apps > Web App');
-          return;
-        }
-
-        // STEP 1: FORCE POPUP (MOST IMPORTANT) - Using signInWithPopup, NOT redirect
-        // ✅ CORRECT: signInWithPopup opens popup immediately
-        // ❌ WRONG: signInWithRedirect would cause handler page redirect
-        
-        console.log('✅ Triggering Google Sign-In popup...');
-        console.log('🌐 Auth domain:', window.firebaseAuth.app.options.authDomain);
-        console.log('📋 Using signInWithPopup (popup method) - NOT redirect');
-        
-        // Immediately trigger popup - no delays, no extra logic
-        // This opens Google email chooser in a popup window
-        const result = await window.firebaseAuth.signInWithPopup(window.googleProvider);
-        const user = result.user;
-
-        console.log('✅ Google Sign-In successful!');
-        console.log('👤 User:', user.email, user.displayName);
-
-        // Get selected user type or default to 'patient'
-        const userType = userTypeSelect.value.trim();
-        const selectedUserType = userType || 'patient';
-
-        // Redirect to dashboard based on selected role
-        loginPage.classList.add('hidden');
-
-        if (selectedUserType === 'doctor') {
-          doctorDashboard.classList.remove('hidden');
-          showSection('doctor-patients');
-          document.title = 'SWAASTRIX - Doctor Dashboard';
-        } else if (selectedUserType === 'patient') {
-          patientDashboard.classList.remove('hidden');
-          showSection('my-diet');
-          document.title = 'SWAASTRIX - Patient Dashboard';
-        } else if (selectedUserType === 'admin') {
-          adminDashboard.classList.remove('hidden');
-          showSection('admin-approve-doctors');
-          document.title = 'SWAASTRIX - Admin Dashboard';
-        }
-      } catch (error) {
-        console.error('❌ Google Sign-In Error:', error);
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
-        
-        if (error.code === 'auth/popup-closed-by-user') {
-          // User closed the popup - no need to show error
-          console.log('ℹ️ User closed the popup');
-          return;
-        }
-        if (error.code === 'auth/popup-blocked') {
-          alert('⚠️ Popup was blocked. Please allow popups for this site and try again.');
-          return;
-        }
-        if (error.code === 'auth/unauthorized-domain') {
-          const currentDomain = window.location.hostname;
-          const currentPort = window.location.port ? ':' + window.location.port : '';
-          const fullDomain = currentDomain + currentPort;
-          
-          console.error('❌ Unauthorized domain:', fullDomain);
-          console.error('📋 Add this domain to Firebase Console:');
-          console.error('   1. Go to: Firebase Console > Authentication > Settings');
-          console.error('   2. Scroll to "Authorized domains"');
-          console.error('   3. Click "Add domain"');
-          console.error('   4. Add:', currentDomain === 'localhost' ? 'localhost' : currentDomain);
-          
-          alert(`⚠️ Domain not authorized!\n\nCurrent domain: ${fullDomain}\n\nPlease add "${currentDomain === 'localhost' ? 'localhost' : currentDomain}" to:\nFirebase Console > Authentication > Settings > Authorized domains\n\nNote: For localhost, just add "localhost" (port not needed)`);
-          return;
-        }
-        if (error.code === 'auth/operation-not-allowed') {
-          alert('⚠️ Google Sign-In is not enabled. Please enable it in Firebase Console > Authentication > Sign-in method');
-          return;
-        }
-        if (error.code === 'auth/invalid-api-key' || error.code === 'auth/api-key-not-valid') {
-          alert('⚠️ Invalid Firebase API Key. Please check your firebase.js configuration.');
-          return;
-        }
-        
-        // Show user-friendly error for other errors
-        alert('Google Sign-In failed: ' + (error.message || 'Please try again or use regular login.'));
+      };
+    
+      const googleSignInBtn = document.getElementById('google-signin-btn');
+      if (googleSignInBtn) {
+        googleSignInBtn.addEventListener('click', handleGoogleSignIn);
+      } else {
+        window.addEventListener('DOMContentLoaded', () => {
+          const btn = document.getElementById('google-signin-btn');
+          if (btn) btn.addEventListener('click', handleGoogleSignIn);
+        });
       }
-    };
+      // Section switcher for dashboards
+window.showSection = function(id) {
+  const containers = ['doctor-dashboard', 'patient-dashboard', 'admin-dashboard'];
+  const activeDashboard = containers
+    .map(cid => document.getElementById(cid))
+    .find(el => el && !el.classList.contains('hidden'));
+  if (!activeDashboard) return;
 
-    // Wait for DOM to be ready, then attach handler
-    const googleSignInBtn = document.getElementById('google-signin-btn');
-    if (googleSignInBtn) {
-      googleSignInBtn.addEventListener('click', handleGoogleSignIn);
-      console.log('✅ Google Sign-In button handler attached');
-    } else {
-      console.error('❌ Google Sign-In button not found!');
-      // Try again when DOM is fully loaded
-      window.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('google-signin-btn');
-        if (btn) {
-          btn.addEventListener('click', handleGoogleSignIn);
-          console.log('✅ Google Sign-In button handler attached (after DOMContentLoaded)');
-        }
+  const main = activeDashboard.querySelector('main');
+  if (!main) return;
+  main.querySelectorAll('section').forEach(sec => sec.classList.add('hidden'));
+
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.remove('hidden');
+    if (!target.classList.contains('fade-in')) target.classList.add('fade-in');
+  }
+};
+    </script>
+    <script>
+// ... keep existing code above
+
+// Helper
+const API_BASE = 'http://localhost:5000/api';
+
+// Wire Generate AI Diet Chart
+(function wireDietGenerate() {
+  const btn = document.getElementById('generate-diet-btn');
+  const prakritiSelect = document.getElementById('prakriti-select');
+  if (!btn || !prakritiSelect) return;
+  btn.addEventListener('click', async () => {
+    const prakriti = (prakritiSelect.value || 'vata').toLowerCase();
+    try {
+      const res = await fetch(`${API_BASE}/diet/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prakriti })
       });
+      const data = await res.json();
+      // Render into the sample list inside #diet-generator
+      const list = document.querySelector('#diet-generator ul.list-disc');
+      if (!list) return;
+      list.innerHTML = '';
+      (data.plan || []).forEach(row => {
+        const li = document.createElement('li');
+        li.textContent = `${row.meal}: ${row.item}`;
+        list.appendChild(li);
+      });
+    } catch (err) {
+      alert('Failed to generate diet. Please try again.');
     }
-
-    // Show/hide dashboard sections
-    function showSection(sectionId) {
-      // Hide all dashboard sections
-      document.querySelectorAll('#doctor-dashboard main section').forEach(s => s.classList.add('hidden'));
-      document.querySelectorAll('#patient-dashboard main section').forEach(s => s.classList.add('hidden'));
-      document.querySelectorAll('#admin-dashboard main section').forEach(s => s.classList.add('hidden')); // Hide admin sections
-
-      // Show requested section if exists
-      const section = document.getElementById(sectionId);
-      if (section) section.classList.remove('hidden');
-    }
-
-    // Mock button interactions
-    document.addEventListener('click', (e) => {
-      if (e.target.matches('#generate-diet-btn')) {
-        alert('Diet chart generated and displayed above!');
-      } else if (e.target.textContent.includes('Dummy')) {
-        alert('Mock action executed!');
-      } else if (e.target.textContent.includes('Send')) {
-        alert('Question sent to AI!');
-      }
-    });
-
-    // Initialize
-    window.addEventListener('load', () => {
-      // No alerts on load
-    });
-  </script>
+  });
+})();
+</script>
+    </div>
+  
 </body>
 </html>
