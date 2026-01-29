@@ -1,5 +1,7 @@
 // backend/routes/airoutes.js
 const router = require('express').Router();
+const { ask } = require('../controllers/aiController');
+
 
 router.post('/', (req, res) => {
   const message = String(req.body?.message || '').toLowerCase().trim();

@@ -1,10 +1,5 @@
 const { pool } = require('../config/db');
-const router = require('express').Router();
-const { ask } = require('../controllers/aiController');
 
-router.post('/', ask);
-
-module.exports = router;
 function detectPrakriti(text) {
   const t = (text || '').toLowerCase();
   if (t.includes('pitta')) return 'pitta';
@@ -14,10 +9,10 @@ function detectPrakriti(text) {
 
 exports.ask = async (req, res, next) => {
   try {
-    const question = String(req.body?.question || '').trim();
-    if (!question) return res.status(400).json({ error: 'question required' });
+    const message = String(req.body?.message || '').trim();
+    if (!message) return res.status(400).json({ error: 'message required' });
 
-    const q = question.toLowerCase();
+    const q = message.toLowerCase();
     const wantsRecipes = q.includes('recipe') || q.includes('cook') || q.includes('dish');
     const wantsDiet = q.includes('diet') || q.includes('meal') || q.includes('eat') || q.includes('suggest');
 
