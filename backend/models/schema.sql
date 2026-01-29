@@ -1,174 +1,157 @@
--- users: Firebase UID is the primary identity
+-- Optional
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+BEGIN;
+
+-- USERS
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   firebase_uid TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
+  email TEXT UNIQUE,
   role TEXT NOT NULL CHECK (role IN ('doctor','patient','admin')),
-  created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- patients linked to users; each patient belongs to a doctor (user)
+-- PATIENTS
 CREATE TABLE IF NOT EXISTS patients (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  doctor_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_id INTEGER NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+  doctor_id INTEGER NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
   name TEXT NOT NULL,
-  age INTEGER,
+  age INTEGER CHECK (age >= 0),
   condition TEXT,
-  created_at TIMESTAMP DEFAULT NOW(),
-  UNIQUE(user_id)
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- foods
-CREATE TABLE IF NOT EXISTS foods (
+-- FOOD ITEMS (per 100g baseline)
+CREATE TABLE IF NOT EXISTS food_items (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
-  calories NUMERIC NOT NULL DEFAULT 0,
-  protein NUMERIC NOT NULL DEFAULT 0,
-  carbs NUMERIC NOT NULL DEFAULT 0,
-  fat NUMERIC NOT NULL DEFAULT 0,
-  ayurvedic_properties TEXT
+  unit TEXT NOT NULL DEFAULT 'per_100g',
+  calories NUMERIC(10,2) NOT NULL DEFAULT 0,
+  protein  NUMERIC(10,2) NOT NULL DEFAULT 0,
+  carbs    NUMERIC(10,2) NOT NULL DEFAULT 0,
+  fat      NUMERIC(10,2) NOT NULL DEFAULT 0,
+  ayurvedic_properties TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- diet charts (per patient)
+-- RECIPES (NOTE: uses 'title' to match controllers/AI)
+CREATE TABLE IF NOT EXISTS recipes (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL UNIQUE,
+  description TEXT,
+  created_by_user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- RECIPE INGREDIENTS
+CREATE TABLE IF NOT EXISTS recipe_ingredients (
+  id SERIAL PRIMARY KEY,
+  recipe_id INTEGER NOT NULL REFERENCES recipes(id) ON DELETE CASCADE,
+  food_item_id INTEGER NOT NULL REFERENCES food_items(id) ON DELETE RESTRICT,
+  quantity_g NUMERIC(10,2) NOT NULL CHECK (quantity_g > 0),
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  UNIQUE (recipe_id, food_item_id)
+);
+
+-- DIET CHARTS
 CREATE TABLE IF NOT EXISTS diet_charts (
   id SERIAL PRIMARY KEY,
   patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW()
+  notes TEXT,
+  created_by_user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- diet items (food + quantity grams)
-CREATE TABLE IF NOT EXISTS diet_items (
+-- NUTRIENT ANALYSIS (optional cached totals)
+CREATE TABLE IF NOT EXISTS nutrient_analysis (
   id SERIAL PRIMARY KEY,
-  diet_chart_id INTEGER NOT NULL REFERENCES diet_charts(id) ON DELETE CASCADE,
-  food_id INTEGER NOT NULL REFERENCES foods(id) ON DELETE CASCADE,
-  quantity_g NUMERIC NOT NULL CHECK (quantity_g > 0)
+  diet_chart_id INTEGER NOT NULL UNIQUE REFERENCES diet_charts(id) ON DELETE CASCADE,
+  total_calories NUMERIC(12,2) NOT NULL DEFAULT 0,
+  total_protein  NUMERIC(12,2) NOT NULL DEFAULT 0,
+  total_carbs    NUMERIC(12,2) NOT NULL DEFAULT 0,
+  total_fat      NUMERIC(12,2) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO foods (name, calories, protein, carbs, fat, ayurvedic_properties) VALUES
-('Oats', 389, 16.9, 66.3, 6.9, 'Vata balancing, grounding'),
-('Quinoa', 368, 14.1, 64.2, 6.1, 'Tridoshic, light'),
-('Lentils', 353, 25.8, 60.1, 1.1, 'Vata/Pitta balancing'),
-('Coconut Water', 19, 0.7, 3.7, 0.2, 'Cooling, Pitta balancing')
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_patients_doctor ON patients(doctor_id);
+CREATE INDEX IF NOT EXISTS idx_diet_charts_patient ON diet_charts(patient_id);
+CREATE INDEX IF NOT EXISTS idx_recipe_ingredients_recipe ON recipe_ingredients(recipe_id);
+
+COMMIT;
+
+-- Seed: foods (per 100g)
+INSERT INTO food_items (name, calories, protein, carbs, fat, ayurvedic_properties) VALUES
+('Oats', 389, 16.90, 66.30, 6.90, 'Vata balancing, grounding'),
+('Quinoa', 368, 14.10, 64.20, 6.10, 'Tridoshic, light'),
+('Lentils', 353, 25.80, 60.10, 1.10, 'Vata/Pitta balancing'),
+('Rice (White)', 130, 2.70, 28.00, 0.30, 'Neutral, easy to digest'),
+('Wheat Flour', 364, 10.00, 76.00, 1.00, 'Kapha aggravating in excess'),
+('Chickpeas', 364, 19.00, 61.00, 6.00, 'Vata aggravating; soak well'),
+('Spinach', 23, 2.90, 3.60, 0.40, 'Cooling, Pitta pacifying'),
+('Tomato', 18, 0.90, 3.90, 0.20, 'Slightly heating'),
+('Cucumber', 16, 0.70, 3.60, 0.10, 'Cooling, Pitta pacifying'),
+('Banana', 89, 1.10, 23.00, 0.30, 'Sweet, heavy; Kapha increasing'),
+('Apple', 52, 0.30, 14.00, 0.20, 'Light, Vata pacifying when cooked'),
+('Milk (Cow)', 61, 3.20, 5.00, 3.30, 'Cooling, nourishing'),
+('Yogurt (Curd)', 59, 10.00, 3.60, 0.40, 'Sour; Kapha/Pitta increasing'),
+('Ghee', 900, 0.00, 0.00, 100.00, 'Ojas building, Vata pacifying'),
+('Coconut Water', 19, 0.70, 3.70, 0.20, 'Cooling, Pitta pacifying'),
+('Almonds', 579, 21.20, 21.70, 49.90, 'Warming, Vata balancing'),
+('Turmeric', 354, 7.80, 64.90, 9.90, 'Anti-inflammatory, Tridoshic'),
+('Ginger (Fresh)', 80, 1.80, 18.00, 0.80, 'Warming, Kapha reducing'),
+('Honey', 304, 0.30, 82.40, 0.00, 'Heating, Kapha reducing'),
+('Jaggery', 383, 0.40, 98.00, 0.10, 'Heating; iron rich')
 ON CONFLICT (name) DO NOTHING;
 
--- =========================
--- USERS
--- =========================
-DROP TABLE IF EXISTS payments, diet_charts, patient_history, patients, users CASCADE;
-
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  firebase_uid TEXT UNIQUE NOT NULL,
-  name TEXT NOT NULL,
-  email TEXT UNIQUE NOT NULL,
-  role TEXT CHECK (role IN ('admin','doctor','patient')) NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW()
-);
-
+-- Seed: minimal users (doctor/patient/admin)
 INSERT INTO users (firebase_uid, name, email, role) VALUES
-('uid_1','Admin User','admin@swaastrix.com','admin'),
-('uid_2','Dr. Meera Sharma','meera@swaastrix.com','doctor'),
-('uid_3','Dr. Raj Patel','raj@swaastrix.com','doctor'),
-('uid_4','Patient One','p1@mail.com','patient'),
-('uid_5','Patient Two','p2@mail.com','patient'),
-('uid_6','Patient Three','p3@mail.com','patient'),
-('uid_7','Patient Four','p4@mail.com','patient'),
-('uid_8','Patient Five','p5@mail.com','patient'),
-('uid_9','Patient Six','p6@mail.com','patient'),
-('uid_10','Patient Seven','p7@mail.com','patient');
+('doc-uid-1', 'Dr. Arya', 'doctor@example.com', 'doctor'),
+('pat-uid-1', 'John Patient', 'patient@example.com', 'patient'),
+('adm-uid-1', 'Admin One', 'admin@example.com', 'admin')
+ON CONFLICT (firebase_uid) DO NOTHING;
 
--- =========================
--- PATIENTS
--- =========================
-CREATE TABLE patients (
+-- Link patient to doctor
+INSERT INTO patients (user_id, doctor_id, name, age, condition)
+SELECT p.id, d.id, 'John Patient', 30, 'Acidity'
+FROM users p, users d
+WHERE p.firebase_uid = 'pat-uid-1' AND d.firebase_uid = 'doc-uid-1'
+ON CONFLICT DO NOTHING;
+
+-- Seed: recipes (title matches controllers/AI)
+INSERT INTO recipes (title, description, created_by_user_id)
+SELECT 'Moong Dal Khichdi', 'Light, easy to digest', u.id FROM users u WHERE u.firebase_uid = 'doc-uid-1'
+ON CONFLICT (title) DO NOTHING;
+
+INSERT INTO recipes (title, description, created_by_user_id)
+SELECT 'Vegetable Stew', 'Warm and nourishing', u.id FROM users u WHERE u.firebase_uid = 'doc-uid-1'
+ON CONFLICT (title) DO NOTHING;
+
+-- Optionally attach ingredients if the foods exist
+INSERT INTO recipe_ingredients (recipe_id, food_item_id, quantity_g)
+SELECT r.id, f.id, 100
+FROM recipes r, food_items f
+WHERE r.title = 'Moong Dal Khichdi' AND f.name = 'Lentils'
+ON CONFLICT DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS recipes (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  age INT,
-  prakriti TEXT CHECK (prakriti IN ('Vata','Pitta','Kapha')),
-  condition TEXT,
-  doctor_id INT REFERENCES users(id),
-  created_at TIMESTAMP DEFAULT NOW()
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO patients (name, age, prakriti, condition, doctor_id) VALUES
-('Ravi Kumar',35,'Vata','Vata Imbalance',2),
-('Priya Sharma',28,'Pitta','Acidity',2),
-('Amit Verma',42,'Kapha','Weight Gain',3),
-('Neha Joshi',31,'Vata','Insomnia',2),
-('Suresh Patel',55,'Kapha','Diabetes',3),
-('Kiran Shah',26,'Pitta','Skin Issues',2),
-('Anjali Mehta',39,'Vata','Anxiety',2),
-('Rahul Nair',33,'Kapha','Low Energy',3),
-('Pooja Singh',29,'Pitta','Migraine',2),
-('Vikram Rao',47,'Vata','Joint Pain',3);
-
--- =========================
--- PATIENT HISTORY (Timeline)
--- =========================
-CREATE TABLE patient_history (
-  id SERIAL PRIMARY KEY,
-  patient_id INT REFERENCES patients(id) ON DELETE CASCADE,
-  note TEXT NOT NULL,
-  visit_date DATE DEFAULT CURRENT_DATE
-);
-
-INSERT INTO patient_history (patient_id, note) VALUES
-(1,'Initial consultation'),
-(1,'Diet adjusted for digestion'),
-(2,'Acidity reduced'),
-(3,'Weight monitoring started'),
-(4,'Sleep improved'),
-(5,'Sugar levels stable'),
-(6,'Skin condition improving'),
-(7,'Stress reduced'),
-(8,'Energy levels better'),
-(9,'Migraine frequency reduced'),
-(10,'Joint pain less severe');
-
--- =========================
--- DIET CHARTS
--- =========================
-CREATE TABLE diet_charts (
-  id SERIAL PRIMARY KEY,
-  patient_id INT REFERENCES patients(id) ON DELETE CASCADE,
-  prakriti TEXT,
-  diet JSONB,
-  created_at TIMESTAMP DEFAULT NOW()
-);
-
-INSERT INTO diet_charts (patient_id, prakriti, diet) VALUES
-(1,'Vata','{"breakfast":"Oats with ghee","lunch":"Khichdi","dinner":"Vegetable soup"}'),
-(2,'Pitta','{"breakfast":"Fruit bowl","lunch":"Rice & dal","dinner":"Steamed veggies"}'),
-(3,'Kapha','{"breakfast":"Warm tea","lunch":"Millet roti","dinner":"Light soup"}'),
-(4,'Vata','{"breakfast":"Upma","lunch":"Rice curry","dinner":"Dal"}'),
-(5,'Kapha','{"breakfast":"Herbal tea","lunch":"Vegetable curry","dinner":"Soup"}'),
-(6,'Pitta','{"breakfast":"Papaya","lunch":"Chapati","dinner":"Salad"}'),
-(7,'Vata','{"breakfast":"Milk porridge","lunch":"Khichdi","dinner":"Soup"}'),
-(8,'Kapha','{"breakfast":"Green tea","lunch":"Brown rice","dinner":"Steamed veg"}'),
-(9,'Pitta','{"breakfast":"Apple","lunch":"Dal rice","dinner":"Soup"}'),
-(10,'Vata','{"breakfast":"Oatmeal","lunch":"Vegetable rice","dinner":"Light curry"}');
-
--- =========================
--- PAYMENTS (INR)
--- =========================
-CREATE TABLE payments (
-  id SERIAL PRIMARY KEY,
-  patient_id INT REFERENCES patients(id),
-  amount_inr NUMERIC(10,2),
-  status TEXT CHECK (status IN ('pending','paid')),
-  created_at TIMESTAMP DEFAULT NOW()
-);
-
-INSERT INTO payments (patient_id, amount_inr, status) VALUES
-(1,500,'pending'),
-(2,800,'paid'),
-(3,600,'pending'),
-(4,700,'paid'),
-(5,1000,'pending'),
-(6,450,'paid'),
-(7,550,'pending'),
-(8,650,'paid'),
-(9,900,'pending'),
-(10,750,'paid');
+INSERT INTO recipes (title, description) VALUES 
+('Moong Dal Khichdi', 'Light, easy to digest'),
+('Vegetable Stew', 'Warm and nourishing'),
+('Ginger Tea', 'Digestive and warming');

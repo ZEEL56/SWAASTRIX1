@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const ctrl = require('../controllers/dietController'); // not dietChartsController
+const ctrl = require('../controllers/recipesController');
 
 router.get('/', ctrl.list);
 router.post('/', ctrl.add);

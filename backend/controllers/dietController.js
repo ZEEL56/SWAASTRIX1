@@ -66,3 +66,53 @@ exports.generateDiet = async (req, res, next) => {
     res.json({ prakriti, plan });
   } catch (e) { next(e); }
 };
+
+const { pool } = require('../config/db');
+
+exports.list = async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT dc.*, p.name AS patient_name, u.name AS author_name
+       FROM diet_charts dc
+       JOIN patients p ON p.id = dc.patient_id
+       LEFT JOIN users u ON u.id = dc.created_by_user_id
+       ORDER BY dc.created_at DESC`
+    );
+    res.json(rows);
+  } catch (e) { next(e); }
+};
+
+exports.add = async (req, res, next) => {
+  try {
+    const { patient_id, title, notes, created_by_user_id } = req.body;
+    if (!patient_id || !title) return res.status(400).json({ error: 'patient_id and title required' });
+    const { rows } = await pool.query(
+      `INSERT INTO diet_charts (patient_id, title, notes, created_by_user_id) VALUES ($1,$2,$3,$4) RETURNING *`,
+      [patient_id, title, notes, created_by_user_id]
+    );
+    res.status(201).json(rows[0]);
+  } catch (e) { next(e); }
+};
+
+exports.update = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const { patient_id, title, notes, created_by_user_id } = req.body;
+    const { rows } = await pool.query(
+      `UPDATE diet_charts SET patient_id=$1, title=$2, notes=$3, created_by_user_id=$4, updated_at=NOW()
+       WHERE id=$5 RETURNING *`,
+      [patient_id, title, notes, created_by_user_id, id]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Diet chart not found' });
+    res.json(rows[0]);
+  } catch (e) { next(e); }
+};
+
+exports.remove = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const { rowCount } = await pool.query('DELETE FROM diet_charts WHERE id=$1', [id]);
+    if (!rowCount) return res.status(404).json({ error: 'Diet chart not found' });
+    res.status(204).end();
+  } catch (e) { next(e); }
+};
