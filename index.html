@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth" >
 <head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' http://localhost:5000 https:;">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SWAASTRIX - Ayurvedic Healthcare Demo</title>
@@ -37,10 +38,14 @@
     }
   </style>
 </head>
-<body class="bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark transition-all">
-  <div id="app" class="min-h-screen flex flex-col">
+<body class="bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark transition-all overflow-hidden">
+  <div id="app" class="min-h-screen grid grid-rows-[auto,1fr]">
     <!-- Header/Navbar -->
+<<<<<<< HEAD
     <header class="flex justify-between items-center p-3 md:p-4 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900 relative">
+=======
+    <header class="flex justify-between items-center p-4 h-16 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900 z-10">
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
       <div class="flex items-center">
         <img
           src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/874d8959-696f-4c71-8dee-5e18d48de5ba.png"
@@ -57,6 +62,7 @@
         >
           Dark Mode
         </button>
+<<<<<<< HEAD
         <button
           id="help-button"
           class="px-3 py-2 border border-secondary rounded bg-backgroundLight text-textLight hover:bg-backgroundLight/80 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
@@ -64,13 +70,40 @@
         >
           Help
         </button>
+=======
+        <div class="relative">
+          <button
+            id="help-button"
+            class="px-3 py-2 border border-secondary rounded bg-backgroundLight text-textLight hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="help-popover"
+          >
+            Help
+          </button>
+          <div
+            id="help-popover"
+            role="dialog"
+            aria-modal="false"
+            class="absolute right-0 mt-2 w-64 p-3 rounded shadow bg-white text-textLight dark:bg-backgroundDark dark:text-textDark border border-secondary hidden z-50 text-sm"
+          >
+            <p class="mb-1">Having trouble signing in?</p>
+            <p class="mb-1">&gt; Use "Forgot Password" to reset your credentials.</p>
+            <p>&gt; Contact support if the issue persists</p>
+          </div>
+        </div>  
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
       </div>
     </header>
 
     <!-- Login Page -->
     <main
       id="login-page"
+<<<<<<< HEAD
       class="flex-grow min-h-screen flex items-center justify-center bg-gradient-to-r from-primary to-accent dark:from-backgroundDark dark:to-secondary fade-in"
+=======
+      class="flex items-center justify-center bg-gradient-to-r from-primary to-accent dark:from-backgroundDark dark:to-secondary fade-in h-full overflow-hidden"
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
     >
       <section
         class="bg-backgroundLight p-4 md:p-5 rounded-lg shadow-lg w-full max-w-md dark:bg-backgroundDark"
@@ -106,8 +139,13 @@
             required
             aria-required="true"
           />
+<<<<<<< HEAD
 
           <label for="password" class="block text-sm font-medium">Password</label>
+=======
+          
+          <label for="password" class="block font-medium">Password</label>
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
           <input
             type="password"
             id="password"
@@ -116,6 +154,7 @@
             required
             aria-required="true"
           />
+<<<<<<< HEAD
 
           <div class="flex justify-end">
             <button
@@ -133,12 +172,73 @@
             aria-live="polite"
           ></p>
 
+=======
+          <a id="forgot-password-link" href="#" class="block text-left text-sm text-secondary hover:text-primary">Forgot Password?</a>
+          <p id="reset-message" class="text-sm mt-1 hidden"></p>
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
           <button
             type="submit"
             class="w-full p-2.5 bg-primary text-white rounded font-semibold hover:bg-primary/90 transition"
           >
             Login
           </button>
+          <script>
+// API base
+const API = 'http://localhost:5000/api';
+
+// Helper to fetch JSON
+async function apiFetch(url, opts = {}) {
+  const r = await fetch(url, { headers: { 'Content-Type': 'application/json' }, ...opts });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
+// Wire Patient Management (Doctor Dashboard)
+(function wirePatients() {
+  const container = document.getElementById('doctor-patients');
+  if (!container) return;
+  container.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button[data-patient-id]');
+    if (!btn) return;
+    const pid = btn.getAttribute('data-patient-id');
+    try {
+      const data = await apiFetch(`${API}/patients/${pid}`);
+      alert(`Patient loaded:\n${JSON.stringify(data, null, 2)}`);
+    } catch (err) {
+      alert('Failed to load patient');
+    }
+  });
+})();
+
+// Wire Generate AI Diet Chart (Diet Chart Generator)
+(function wireDietGenerate() {
+  const btn = document.getElementById('generate-diet-btn');
+  const prakritiSelect = document.getElementById('prakriti-select');
+  if (!btn || !prakritiSelect) return;
+  btn.addEventListener('click', async () => {
+    const prakriti = prakritiSelect.value || 'vata';
+    try {
+      const data = await apiFetch(`${API}/diet-charts`, {
+        method: 'POST',
+        body: JSON.stringify({ patient_id: 1, title: `${prakriti} Diet`, notes: 'Generated by AI', created_by_user_id: 1 })
+      });
+      alert(`Diet chart created:\n${JSON.stringify(data, null, 2)}`);
+    } catch (err) {
+      alert('Failed to generate diet chart');
+    }
+  });
+})();
+
+// Wire Food List (anywhere you want to list foods)
+(async function loadFoods() {
+  try {
+    const foods = await apiFetch(`${API}/food-items`);
+    console.log('Foods loaded:', foods);
+  } catch (err) {
+    console.error('Failed to load foods');
+  }
+})();
+</script>
 
           <!-- Divider -->
           <div class="relative my-4">
@@ -266,6 +366,8 @@
               <h3 class="text-xl font-semibold mb-1 text-primary">Priya Sharma</h3>
               <p class="text-secondary dark:text-textDark">Age: 28</p>
               <p class="text-secondary dark:text-textDark">Condition: Pitta</p>
+              
+
               <button
                 class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history"
                 aria-label="View patient history timeline for Priya Sharma"
@@ -457,7 +559,7 @@
             class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
             aria-label="Payments overview"
           >
-            <p class="text-lg mb-4 text-secondary dark:text-textDark">Pending Payments: <strong>$50</strong> from Ravi Kumar</p>
+            <p class="text-lg mb-4 text-secondary dark:text-textDark">Pending Payments: <strong>₹500</strong> from Ravi Kumar</p>
             <button
               id="doctor-generate-invoice"
               class="px-5 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
@@ -500,14 +602,72 @@
             class="w-full p-3 mb-4 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
             aria-autocomplete="list"
           />
+          <button id="doctor-ai-send"
+  type="button"
+  class="px-5 py-2 bg-primary text-white rounded hover:bg-primary/90 transition mb-3"
+  aria-label="Send question to AI assistant"
+>
+  Ask
+</button>
+
+          
           <div
             id="doctor-ai-thread"
             class="p-4 bg-accent/20 rounded text-accent space-y-2"
             aria-live="polite"
-            aria-atomic="true"
-          >
-            <p>AI: Try adding turmeric to meals for anti-inflammatory benefits.</p>
+            aria-atomic="true">
+            
+
+    
           </div>
+          <script>
+          // AI Assistant functionality
+document.getElementById('doctor-ai-send')?.addEventListener('click', async () => {
+  const input = document.getElementById('doctor-ai-input');
+  const responseDiv = document.querySelector('#ai-assistant .p-4.bg-accent\\/20');
+  
+  if (!input.value.trim()) return;
+  
+  try {
+    const response = await fetch('http://localhost:5000/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: input.value })
+    });
+    
+    const data = await response.json();
+    responseDiv.innerHTML = `<strong>AI:</strong> ${data.reply || data.answer || 'No response'}`;
+    input.value = '';
+  } catch (error) {
+    responseDiv.innerHTML = '<strong>Error:</strong> Failed to get AI response';
+  }
+});
+
+// Patient AI Chatbot
+document.querySelector('#chatbot button')?.addEventListener('click', async () => {
+  const input = document.getElementById('patient-ai-input');
+  const chatDiv = document.querySelector('#chatbot .mb-4.space-y-2');
+  
+  if (!input.value.trim()) return;
+  
+  // Add user message
+  chatDiv.innerHTML += `<div class="p-3 bg-secondary/20 rounded dark:bg-secondary/10">You: ${input.value}</div>`;
+  
+  try {
+    const response = await fetch('http://localhost:5000/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: input.value })
+    });
+    
+    const data = await response.json();
+    chatDiv.innerHTML += `<div class="p-3 bg-accent/20 rounded">AI: ${data.reply || data.answer || 'No response'}</div>`;
+    input.value = '';
+  } catch (error) {
+    chatDiv.innerHTML += `<div class="p-3 bg-red-100 rounded">Error: Failed to get AI response</div>`;
+  }
+});
+          </script>
         </section>
       </main>
     </section>
@@ -1235,6 +1395,7 @@
       body.classList.toggle('dark');
       themeToggle.textContent = body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
     });
+<<<<<<< HEAD
 
     // Help tooltip/modal (compact, no overflow)
     const helpButton = document.getElementById('help-button');
@@ -1288,6 +1449,30 @@
       });
     }
 
+=======
+</script>
+    <!-- Help popover (replaces language selector) -->
+  <script>
+  const helpBtn = document.getElementById('help-button');
+  const helpPopover = document.getElementById('help-popover');
+  if (helpBtn && helpPopover) {
+    helpBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = helpPopover.classList.contains('hidden');
+      helpPopover.classList.toggle('hidden');
+      helpBtn.setAttribute('aria-expanded', String(willOpen));
+    });
+    helpPopover.addEventListener('click', (e) => e.stopPropagation());
+    document.addEventListener('click', () => {
+      if (!helpPopover.classList.contains('hidden')) {
+        helpPopover.classList.add('hidden');
+        helpBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+</script>
+ <script>
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
     // Login functionality - Fixed
     const loginForm = document.getElementById('login-form');
     const loginPage = document.getElementById('login-page');
@@ -1297,6 +1482,7 @@
     const userTypeSelect = document.getElementById('user-type');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password'); // Renamed from otpInput
+<<<<<<< HEAD
     const forgotPasswordButton = document.getElementById('forgot-password');
     const forgotPasswordMessage = document.getElementById('forgot-password-message');
 
@@ -1391,6 +1577,46 @@
     }
 
     loginForm.addEventListener('submit', async (e) => {
+=======
+    // Forgot Password: Firebase sendPasswordResetEmail (inline success/error, no redirect)
+    const forgotLink = document.getElementById('forgot-password-link');
+    const resetMsg = document.getElementById('reset-message');
+    
+    if (forgotLink) {
+      forgotLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (resetMsg) resetMsg.className = 'text-sm mt-1'; // reset classes
+        const email = (usernameInput?.value || '').trim();
+        if (!email) {
+          if (resetMsg) {
+            resetMsg.textContent = 'Enter your email in the Username field to reset your password.';
+            resetMsg.classList.add('text-red-600');
+          }
+          return;
+        }
+        if (!window.firebaseAuth) {
+          if (resetMsg) {
+            resetMsg.textContent = 'Password reset unavailable. Firebase not initialized.';
+            resetMsg.classList.add('text-red-600');
+          }
+          return;
+        }
+        try {
+          await window.firebaseAuth.sendPasswordResetEmail(email);
+          if (resetMsg) {
+            resetMsg.textContent = 'Password reset email sent. Check your inbox.';
+            resetMsg.classList.add('text-green-600');
+          }
+        } catch (err) {
+          if (resetMsg) {
+            resetMsg.textContent = err?.message || 'Failed to send reset email.';
+            resetMsg.classList.add('text-red-600');
+          }
+        }
+      });
+    }
+    loginForm.addEventListener('submit', (e) => {
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
       e.preventDefault();
       const userType = userTypeSelect.value.trim();
       const username = usernameInput.value.trim();
@@ -1431,8 +1657,13 @@
 
       // Redirect to dashboard
       loginPage.classList.add('hidden');
+<<<<<<< HEAD
 
       if (effectiveRole === 'doctor') {
+=======
+document.body.classList.remove('overflow-hidden');
+      if (userType === 'doctor') {
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
         doctorDashboard.classList.remove('hidden');
         showSection('doctor-patients');
         applyDoctorProfile();
@@ -1449,6 +1680,7 @@
       }
     });
 
+<<<<<<< HEAD
     // Forgot password with Firebase Auth
     if (forgotPasswordButton && forgotPasswordMessage) {
       forgotPasswordButton.addEventListener('click', async () => {
@@ -1585,25 +1817,107 @@
         
         // Show user-friendly error for other errors
         alert('Google Sign-In failed: ' + (error.message || 'Please try again or use regular login.'));
-      }
-    };
-
-    // Wait for DOM to be ready, then attach handler
-    const googleSignInBtn = document.getElementById('google-signin-btn');
-    if (googleSignInBtn) {
-      googleSignInBtn.addEventListener('click', handleGoogleSignIn);
-      console.log('✅ Google Sign-In button handler attached');
-    } else {
-      console.error('❌ Google Sign-In button not found!');
-      // Try again when DOM is fully loaded
-      window.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('google-signin-btn');
-        if (btn) {
-          btn.addEventListener('click', handleGoogleSignIn);
-          console.log('✅ Google Sign-In button handler attached (after DOMContentLoaded)');
+=======
+   
+      const handleGoogleSignIn = async () => {
+        try {
+          if (!window.firebaseAuth || !window.googleProvider) {
+            alert('Firebase is not initialized. Please check your configuration.');
+            return;
+          }
+          if (window.firebaseAuth.app.options.apiKey === 'YOUR_API_KEY' || !window.firebaseAuth.app.options.apiKey) {
+            alert('Firebase API Key not configured.');
+            return;
+          }
+          await window.firebaseAuth.signInWithPopup(window.googleProvider);
+          const selectedUserType = (userTypeSelect.value.trim() || 'patient');
+          loginPage.classList.add('hidden');
+          document.body.classList.remove('overflow-hidden');
+          if (selectedUserType === 'doctor') {
+            doctorDashboard.classList.remove('hidden');
+            showSection('doctor-patients');
+            document.title = 'SWAASTRIX - Doctor Dashboard';
+          } else if (selectedUserType === 'patient') {
+            patientDashboard.classList.remove('hidden');
+            showSection('my-diet');
+            document.title = 'SWAASTRIX - Patient Dashboard';
+          } else if (selectedUserType === 'admin') {
+            adminDashboard.classList.remove('hidden');
+            showSection('admin-approve-doctors');
+            document.title = 'SWAASTRIX - Admin Dashboard';
+          }
+        } catch (error) {
+          if (error.code === 'auth/popup-closed-by-user') return;
+          if (error.code === 'auth/popup-blocked') { alert('Popup was blocked. Please allow popups and try again.'); return; }
+          if (error.code === 'auth/unauthorized-domain') { alert(`Domain not authorized: ${window.location.hostname}`); return; }
+          if (error.code === 'auth/operation-not-allowed') { alert('Google Sign-In is not enabled.'); return; }
+          if (error.code === 'auth/invalid-api-key' || error.code === 'auth/api-key-not-valid') { alert('Invalid Firebase API Key.'); return; }
+          alert('Google Sign-In failed. Please try again or use regular login.');
         }
+      };
+    
+      const googleSignInBtn = document.getElementById('google-signin-btn');
+      if (googleSignInBtn) {
+        googleSignInBtn.addEventListener('click', handleGoogleSignIn);
+      } else {
+        window.addEventListener('DOMContentLoaded', () => {
+          const btn = document.getElementById('google-signin-btn');
+          if (btn) btn.addEventListener('click', handleGoogleSignIn);
+        });
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
+      }
+      // Section switcher for dashboards
+window.showSection = function(id) {
+  const containers = ['doctor-dashboard', 'patient-dashboard', 'admin-dashboard'];
+  const activeDashboard = containers
+    .map(cid => document.getElementById(cid))
+    .find(el => el && !el.classList.contains('hidden'));
+  if (!activeDashboard) return;
+
+  const main = activeDashboard.querySelector('main');
+  if (!main) return;
+  main.querySelectorAll('section').forEach(sec => sec.classList.add('hidden'));
+
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.remove('hidden');
+    if (!target.classList.contains('fade-in')) target.classList.add('fade-in');
+  }
+};
+    </script>
+    <script>
+// ... keep existing code above
+
+// Helper
+const API_BASE = 'http://localhost:5000/api';
+
+// Wire Generate AI Diet Chart
+(function wireDietGenerate() {
+  const btn = document.getElementById('generate-diet-btn');
+  const prakritiSelect = document.getElementById('prakriti-select');
+  if (!btn || !prakritiSelect) return;
+  btn.addEventListener('click', async () => {
+    const prakriti = (prakritiSelect.value || 'vata').toLowerCase();
+    try {
+      const res = await fetch(`${API_BASE}/diet/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prakriti })
       });
+      const data = await res.json();
+      // Render into the sample list inside #diet-generator
+      const list = document.querySelector('#diet-generator ul.list-disc');
+      if (!list) return;
+      list.innerHTML = '';
+      (data.plan || []).forEach(row => {
+        const li = document.createElement('li');
+        li.textContent = `${row.meal}: ${row.item}`;
+        list.appendChild(li);
+      });
+    } catch (err) {
+      alert('Failed to generate diet. Please try again.');
     }
+<<<<<<< HEAD
 
     // Show/hide dashboard sections
     function showSection(sectionId) {
@@ -1990,5 +2304,12 @@
       // No alerts on load
     });
   </script>
+=======
+  });
+})();
+</script>
+    </div>
+  
+>>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
 </body>
 </html>

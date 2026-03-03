@@ -1,0 +1,33 @@
+{
+  "name": "swaastrix",
+  "version": "1.0.0",
+  "description": "SWAASTRIX - Ayurvedic Healthcare Demo",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "firebase": "^12.8.0",
+    "firebase-admin": "^13.6.0",
+    "pg": "^8.17.2"
+  },
+  "main": "firebase.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZEEL56/SWAASTRIX1.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ZEEL56/SWAASTRIX1/issues"
+  },
+  "homepage": "https://github.com/ZEEL56/SWAASTRIX1#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
