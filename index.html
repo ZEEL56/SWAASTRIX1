@@ -37,10 +37,10 @@
     }
   </style>
 </head>
-<body class="bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark transition-all overflow-hidden">
+<body class="bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark transition-all">
   <div id="app" class="min-h-screen flex flex-col">
     <!-- Header/Navbar -->
-    <header class="flex justify-between items-center p-4 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900 relative">
+    <header class="flex justify-between items-center p-3 md:p-4 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900 relative">
       <div class="flex items-center">
         <img
           src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/874d8959-696f-4c71-8dee-5e18d48de5ba.png"
@@ -73,18 +73,18 @@
       class="flex-grow min-h-screen flex items-center justify-center bg-gradient-to-r from-primary to-accent dark:from-backgroundDark dark:to-secondary fade-in"
     >
       <section
-        class="bg-backgroundLight p-6 md:p-8 rounded-lg shadow-lg w-full max-w-md dark:bg-backgroundDark"
+        class="bg-backgroundLight p-4 md:p-5 rounded-lg shadow-lg w-full max-w-md dark:bg-backgroundDark"
         role="main"
         aria-label="Login form"
       >
         <img
           src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f7383676-bd51-419c-b2ba-2d43109d4090.png"
           alt="SWAASTRIX logo featuring a modern herbal leaf symbol intertwined with a medical caduceus, representing traditional Ayurvedic healing in a tech-forward design"
-          class="mx-auto mb-6 h-12 w-12 rounded-full"
+          class="mx-auto mb-4 md:mb-6 h-12 w-12 rounded-full"
         />
-        <h2 class="text-2xl font-semibold text-center mb-4 md:mb-6 text-primary">Welcome to SWAASTRIX</h2>
-        <form id="login-form" class="space-y-3 md:space-y-4" novalidate>
-          <label for="user-type" class="block font-medium">Login as</label>
+        <h2 class="text-2xl font-semibold text-center mb-2.5 md:mb-4 text-primary">Welcome to SWAASTRIX</h2>
+        <form id="login-form" class="space-y-2 md:space-y-2.5" novalidate>
+          <label for="user-type" class="block text-sm font-medium">Login as</label>
           <select
             id="user-type"
             class="w-full p-3 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
@@ -97,7 +97,7 @@
             <option value="admin">Admin</option>
           </select>
 
-          <label for="username" class="block font-medium">Username</label>
+          <label for="username" class="block text-sm font-medium">Username</label>
           <input
             type="text"
             id="username"
@@ -107,12 +107,12 @@
             aria-required="true"
           />
 
-          <label for="password" class="block font-medium">Password</label>
+          <label for="password" class="block text-sm font-medium">Password</label>
           <input
             type="password"
             id="password"
             placeholder="Enter your password"
-            class="w-full p-3 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+            class="w-full p-2.5 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
             required
             aria-required="true"
           />
@@ -135,7 +135,7 @@
 
           <button
             type="submit"
-            class="w-full p-3 bg-primary text-white rounded font-semibold hover:bg-primary/90 transition"
+            class="w-full p-2.5 bg-primary text-white rounded font-semibold hover:bg-primary/90 transition"
           >
             Login
           </button>
@@ -177,7 +177,8 @@
         class="w-64 bg-secondary p-6 min-h-screen flex flex-col text-white dark:bg-backgroundDark"
         aria-label="Doctor dashboard navigation"
       >
-        <h3 class="text-lg font-semibold mb-6">Doctor Dashboard</h3>
+        <h3 class="text-lg font-semibold mb-1">Doctor Dashboard</h3>
+        <p id="doctor-welcome" class="text-sm text-gray-100 mb-4 opacity-90"></p>
         <ul class="space-y-3 flex-grow">
           <li>
             <button
@@ -229,10 +230,13 @@
           </li>
         </ul>
       </nav>
-      <main class="flex-1 p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+      <main class="flex-1 min-h-screen p-6 md:p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+        <p id="global-profile-name-doctor" class="text-sm text-secondary dark:text-textDark mb-4"></p>
         <section id="doctor-patients" class="fade-in">
-          <h2 class="text-3xl font-semibold mb-6 text-primary">Patient Management</h2>
+          <h2 class="text-3xl font-semibold mb-2 text-primary">Patient Management</h2>
+          <p id="doctor-summary" class="mb-4 text-secondary dark:text-textDark text-sm"></p>
           <input
+            id="doctor-patient-search"
             type="search"
             placeholder="Search patients by name, age, or condition"
             class="w-full p-3 mb-6 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
@@ -242,12 +246,13 @@
             <article
               class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
               aria-label="Patient Ravi Kumar, age 35, condition Vata Imbalance"
+              data-patient-name="Ravi Kumar"
             >
               <h3 class="text-xl font-semibold mb-1 text-primary">Ravi Kumar</h3>
               <p class="text-secondary dark:text-textDark">Age: 35</p>
               <p class="text-secondary dark:text-textDark">Condition: Vata Imbalance</p>
               <button
-                class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+                class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history"
                 aria-label="View patient history timeline for Ravi Kumar"
               >
                 View History Timeline
@@ -256,14 +261,151 @@
             <article
               class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
               aria-label="Patient Priya Sharma, age 28, condition Pitta"
+              data-patient-name="Priya Sharma"
             >
               <h3 class="text-xl font-semibold mb-1 text-primary">Priya Sharma</h3>
               <p class="text-secondary dark:text-textDark">Age: 28</p>
               <p class="text-secondary dark:text-textDark">Condition: Pitta</p>
               <button
-                class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
+                class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history"
                 aria-label="View patient history timeline for Priya Sharma"
               >
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Amit Patel">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Amit Patel</h3>
+              <p class="text-secondary dark:text-textDark">Age: 42</p>
+              <p class="text-secondary dark:text-textDark">Condition: Diabetes (Kapha imbalance)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Neha Joshi">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Neha Joshi</h3>
+              <p class="text-secondary dark:text-textDark">Age: 30</p>
+              <p class="text-secondary dark:text-textDark">Condition: PCOS (Pitta-Kapha)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Sahil Mehta">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Sahil Mehta</h3>
+              <p class="text-secondary dark:text-textDark">Age: 29</p>
+              <p class="text-secondary dark:text-textDark">Condition: Stress & Insomnia (Vata)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Ananya Rao">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Ananya Rao</h3>
+              <p class="text-secondary dark:text-textDark">Age: 24</p>
+              <p class="text-secondary dark:text-textDark">Condition: Acne & Skin Heat (Pitta)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Vikram Singh">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Vikram Singh</h3>
+              <p class="text-secondary dark:text-textDark">Age: 50</p>
+              <p class="text-secondary dark:text-textDark">Condition: Joint Pain (Vata)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Kiran Desai">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Kiran Desai</h3>
+              <p class="text-secondary dark:text-textDark">Age: 38</p>
+              <p class="text-secondary dark:text-textDark">Condition: Thyroid Imbalance</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Rohit Sharma">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Rohit Sharma</h3>
+              <p class="text-secondary dark:text-textDark">Age: 33</p>
+              <p class="text-secondary dark:text-textDark">Condition: Fatty Liver (Kapha)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Meera Iyer">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Meera Iyer</h3>
+              <p class="text-secondary dark:text-textDark">Age: 27</p>
+              <p class="text-secondary dark:text-textDark">Condition: IBS (Vata-Pitta)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Arjun Verma">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Arjun Verma</h3>
+              <p class="text-secondary dark:text-textDark">Age: 19</p>
+              <p class="text-secondary dark:text-textDark">Condition: Allergic Rhinitis</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Pooja Nair">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Pooja Nair</h3>
+              <p class="text-secondary dark:text-textDark">Age: 32</p>
+              <p class="text-secondary dark:text-textDark">Condition: Migraine (Pitta-Vata)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Deepak Yadav">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Deepak Yadav</h3>
+              <p class="text-secondary dark:text-textDark">Age: 45</p>
+              <p class="text-secondary dark:text-textDark">Condition: Hypertension (Pitta)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Sneha Kulkarni">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Sneha Kulkarni</h3>
+              <p class="text-secondary dark:text-textDark">Age: 26</p>
+              <p class="text-secondary dark:text-textDark">Condition: Anxiety (Vata)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Harsh Jain">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Harsh Jain</h3>
+              <p class="text-secondary dark:text-textDark">Age: 36</p>
+              <p class="text-secondary dark:text-textDark">Condition: Obesity (Kapha)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Riya Malhotra">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Riya Malhotra</h3>
+              <p class="text-secondary dark:text-textDark">Age: 22</p>
+              <p class="text-secondary dark:text-textDark">Condition: Hair Fall (Pitta)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Kabir Khan">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Kabir Khan</h3>
+              <p class="text-secondary dark:text-textDark">Age: 40</p>
+              <p class="text-secondary dark:text-textDark">Condition: High Cholesterol</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Isha Gupta">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Isha Gupta</h3>
+              <p class="text-secondary dark:text-textDark">Age: 28</p>
+              <p class="text-secondary dark:text-textDark">Condition: Low Immunity</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
+                View History Timeline
+              </button>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark" data-patient-name="Manish Soni">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Manish Soni</h3>
+              <p class="text-secondary dark:text-textDark">Age: 34</p>
+              <p class="text-secondary dark:text-textDark">Condition: Gastritis (Pitta)</p>
+              <button class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition doctor-patient-history">
                 View History Timeline
               </button>
             </article>
@@ -272,7 +414,7 @@
 
         <section id="diet-generator" class="hidden fade-in">
           <h2 class="text-3xl font-semibold mb-6 text-primary">Diet Chart Generator</h2>
-          <form class="flex flex-wrap items-center gap-4 mb-6" aria-label="Diet chart filter form">
+          <form class="flex flex-wrap items-center gap-4 mb-6" aria-label="Diet chart filter form" id="diet-form">
             <label for="prakriti-select" class="font-medium text-secondary dark:text-textDark">Prakriti:</label>
             <select
               id="prakriti-select"
@@ -283,7 +425,7 @@
               <option value="kapha">Kapha</option>
             </select>
             <button
-              type="button"
+              type="submit"
               id="generate-diet-btn"
               class="px-6 py-3 bg-accent text-white rounded font-semibold hover:bg-accent/90 transition"
             >
@@ -291,23 +433,21 @@
             </button>
           </form>
           <article
+            id="diet-plan"
             class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
             aria-live="polite"
             aria-atomic="true"
           >
             <h3 class="text-xl font-semibold mb-3 text-primary">Sample Diet Plan</h3>
-            <ul class="list-disc list-inside space-y-1 text-secondary dark:text-textDark">
+            <ul
+              id="diet-plan-list"
+              class="list-disc list-inside space-y-1 text-secondary dark:text-textDark"
+            >
               <li>Breakfast: Oatmeal with ghee</li>
               <li>Lunch: Vegetable stir-fry with quinoa</li>
               <li>Snack: Fresh coconut water</li>
               <li>Dinner: Warm lentil soup</li>
             </ul>
-            <button
-              class="mt-6 px-5 py-2 bg-accent text-white rounded hover:bg-accent/90 transition"
-              aria-label="Export diet chart as PDF"
-            >
-              Export as PDF
-            </button>
           </article>
         </section>
 
@@ -319,11 +459,13 @@
           >
             <p class="text-lg mb-4 text-secondary dark:text-textDark">Pending Payments: <strong>$50</strong> from Ravi Kumar</p>
             <button
+              id="doctor-generate-invoice"
               class="px-5 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
               aria-label="Generate invoice"
             >
               Generate Invoice
             </button>
+            <p id="doctor-invoice-status" class="mt-4 text-sm text-secondary dark:text-textDark"></p>
           </article>
         </section>
 
@@ -339,11 +481,13 @@
         <section id="teleconsult" class="hidden fade-in">
           <h2 class="text-3xl font-semibold mb-6 text-primary">Teleconsultation</h2>
           <button
+            id="teleconsult-start"
             class="px-8 py-3 bg-accent text-white rounded hover:bg-accent/90 transition"
             aria-label="Start mock video call between doctor and patient"
           >
             Start Mock Video Call
           </button>
+          <p id="teleconsult-status" class="mt-4 text-sm text-secondary dark:text-textDark"></p>
         </section>
 
         <section id="ai-assistant" class="hidden fade-in">
@@ -357,7 +501,8 @@
             aria-autocomplete="list"
           />
           <div
-            class="p-4 bg-accent/20 rounded text-accent"
+            id="doctor-ai-thread"
+            class="p-4 bg-accent/20 rounded text-accent space-y-2"
             aria-live="polite"
             aria-atomic="true"
           >
@@ -428,20 +573,30 @@
               class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
               onclick="showSection('scanner')"
             >
+              Food Scanner
+            </button>
+          </li>
+          <li>
+            <button
+              class="w-full text-left p-2 rounded hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary"
+              onclick="showSection('voice')"
+            >
               Voice Assistant
             </button>
           </li>
         </ul>
       </nav>
-      <main class="flex-1 p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+      <main class="flex-1 min-h-screen p-6 md:p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+        <p id="global-profile-name-patient" class="text-sm text-secondary dark:text-textDark mb-4"></p>
         <section id="my-diet" class="fade-in">
-          <h2 class="text-3xl font-semibold mb-6 text-primary">My Diet Chart</h2>
+          <h2 class="text-3xl font-semibold mb-2 text-primary">My Diet Chart</h2>
+          <p id="patient-summary" class="mb-4 text-secondary dark:text-textDark text-sm"></p>
           <article
             class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
             aria-label="Today's diet plan with interactive meal tracker"
           >
             <h3 class="text-xl font-semibold mb-4 text-primary">Today's Meals</h3>
-            <ul class="space-y-3 text-secondary dark:text-textDark">
+            <ul id="patient-meal-list" class="space-y-3 text-secondary dark:text-textDark">
               <li class="flex items-center space-x-3">
                 <input type="checkbox" id="meal-breakfast" aria-label="Mark breakfast as completed" class="accent-primary" />
                 <label for="meal-breakfast">Breakfast: Oats</label>
@@ -455,28 +610,32 @@
                 <label for="meal-snack">Snack: Coconut Water</label>
               </li>
             </ul>
+            <p id="patient-diet-status" class="mt-4 text-sm text-secondary dark:text-textDark" aria-live="polite"></p>
           </article>
         </section>
 
         <section id="pay-fees" class="hidden fade-in">
           <h2 class="text-3xl font-semibold mb-6 text-primary">Payments</h2>
           <button
+            id="patient-pay-btn"
             class="px-6 py-3 bg-primary text-white rounded hover:bg-primary/90 transition"
             aria-label="Pay consultation fee dummy button"
           >
             Pay Consultation Fee (Dummy)
           </button>
           <button
+            id="patient-receipt-btn"
             class="ml-4 px-5 py-2 bg-accent text-white rounded hover:bg-accent/90 transition"
             aria-label="Download receipt"
           >
             Download Receipt
           </button>
+          <p id="patient-payment-status" class="mt-4 text-sm text-secondary dark:text-textDark" aria-live="polite"></p>
         </section>
 
         <section id="chatbot" class="hidden fade-in">
           <h2 class="text-3xl font-semibold mb-6 text-primary">AI Doctor Chatbot</h2>
-          <div class="mb-4 space-y-2">
+          <div id="patient-ai-thread" class="mb-4 space-y-2">
             <div class="p-3 bg-secondary/20 rounded dark:bg-secondary/10">You: What should I eat if I feel acidity?</div>
             <div class="p-3 bg-accent/20 rounded">AI: Eat cooling foods like cucumber. Avoid spices.</div>
           </div>
@@ -489,6 +648,7 @@
             aria-autocomplete="list"
           />
           <button
+            id="patient-ai-send"
             class="px-5 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
             aria-label="Send question to AI chatbot"
           >
@@ -497,7 +657,8 @@
         </section>
 
         <section id="progress" class="hidden fade-in">
-          <h2 class="text-3xl font-semibold mb-6 text-primary">Progress Tracker</h2>
+          <h2 class="text-3xl font-semibold mb-2 text-primary">Progress Tracker</h2>
+          <p id="patient-progress-text" class="mb-4 text-secondary dark:text-textDark text-sm"></p>
           <img
             src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4f13bc6c-8ddb-4cf8-a728-7339071ce572.png"
             alt="Line graph showing steady weight loss from 80kg to 75kg, energy level rising from 5 to 8, digestion score improving to 85%, with notification alerts for wellness tips like drinking warm water"
@@ -511,31 +672,103 @@
             class="p-6 bg-backgroundLight rounded shadow dark:bg-backgroundDark"
             aria-label="Community discussion sample"
           >
-            <p class="text-secondary dark:text-textDark">Share recipes: Try ginger tea for immunity!</p>
+            <p class="text-secondary dark:text-textDark mb-4">Join a community that matches your goal and share updates.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div class="p-4 border border-secondary rounded dark:border-secondary">
+                <p class="font-semibold text-primary">Digestive Health</p>
+                <p class="text-sm text-secondary dark:text-textDark">Acidity, IBS, bloating support</p>
+                <button id="join-digestive" class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" type="button">
+                  Join
+                </button>
+              </div>
+              <div class="p-4 border border-secondary rounded dark:border-secondary">
+                <p class="font-semibold text-primary">Weight Management</p>
+                <p class="text-sm text-secondary dark:text-textDark">Diet consistency + progress tips</p>
+                <button id="join-weight" class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" type="button">
+                  Join
+                </button>
+              </div>
+              <div class="p-4 border border-secondary rounded dark:border-secondary">
+                <p class="font-semibold text-primary">Diabetes Care</p>
+                <p class="text-sm text-secondary dark:text-textDark">Kapha balance + meal planning</p>
+                <button id="join-diabetes" class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" type="button">
+                  Join
+                </button>
+              </div>
+              <div class="p-4 border border-secondary rounded dark:border-secondary">
+                <p class="font-semibold text-primary">Stress & Sleep</p>
+                <p class="text-sm text-secondary dark:text-textDark">Vata calming routines</p>
+                <button id="join-stress" class="mt-3 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" type="button">
+                  Join
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <label for="community-select" class="text-sm font-medium text-secondary dark:text-textDark">Active community</label>
+              <select
+                id="community-select"
+                class="px-3 py-2 border border-secondary rounded bg-backgroundLight text-textLight focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+              >
+                <option value="digestive">Digestive Health</option>
+                <option value="weight">Weight Management</option>
+                <option value="diabetes">Diabetes Care</option>
+                <option value="stress">Stress & Sleep</option>
+              </select>
+              <p id="community-status" class="text-sm text-secondary dark:text-textDark" aria-live="polite"></p>
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <label for="community-post-input" class="text-sm font-medium text-secondary dark:text-textDark">Post an update</label>
+              <input
+                id="community-post-input"
+                type="text"
+                placeholder="Share a tip or ask a question..."
+                class="w-full p-3 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
+              />
+              <button
+                id="community-post-btn"
+                class="self-start px-5 py-2 bg-accent text-white rounded hover:bg-accent/90 transition"
+                type="button"
+              >
+                Post
+              </button>
+
+              <ul id="community-feed" class="mt-2 space-y-2 text-secondary dark:text-textDark">
+                <li class="p-3 bg-secondary/10 rounded dark:bg-secondary/10">Digestive Health: Welcome! Share your first update.</li>
+              </ul>
+            </div>
           </article>
         </section>
 
         <section id="emergency" class="hidden fade-in">
           <h2 class="text-3xl font-semibold mb-6 text-primary">Emergency Help</h2>
           <button
+            id="emergency-contact-btn"
             class="px-6 py-3 bg-accent text-white rounded hover:bg-accent/90 transition"
-            aria-label="Contact doctor or emergency services dummy link"
+            aria-label="Contact doctor or emergency services"
+            type="button"
           >
-            Contact Doctor (Dummy)
+            Contact Doctor
           </button>
+          <p id="emergency-status" class="mt-4 text-sm text-secondary dark:text-textDark" aria-live="polite"></p>
         </section>
 
         <section id="scanner" class="hidden fade-in">
           <h2 class="text-3xl font-semibold mb-6 text-primary">Food Scanner</h2>
           <input
+            id="scanner-file"
             type="file"
             accept="image/*"
             class="mb-4"
             aria-label="Upload food image for Ayurveda analysis"
           />
           <button
+            id="scanner-scan-btn"
             class="px-6 py-3 bg-accent text-white rounded hover:bg-accent/90 transition"
             aria-label="Scan image for Ayurvedic properties"
+            type="button"
           >
             Scan for Ayurveda Properties
           </button>
@@ -544,19 +777,21 @@
             aria-live="polite"
             aria-atomic="true"
           >
-            <p class="text-accent">Result: High pitta, suggest cooling herbs.</p>
+            <p id="scanner-result" class="text-accent">Upload a food image and click scan to get an Ayurveda-friendly suggestion.</p>
           </div>
         </section>
 
         <section id="voice" class="hidden fade-in">
           <h2 class="text-3xl font-semibold mb-6 text-primary">Voice Assistant</h2>
           <button
+            id="voice-btn"
             class="px-6 py-3 bg-accent text-white rounded hover:bg-accent/90 transition"
             aria-label="Activate voice assistant for queries"
+            type="button"
           >
             Speak Query (Mock)
           </button>
-          <p class="mt-4 text-secondary dark:text-textDark">Voice captured: "Diet for acidity?"</p>
+          <p id="voice-status" class="mt-4 text-secondary dark:text-textDark" aria-live="polite">Press Speak and we’ll capture a query (demo).</p>
         </section>
       </main>
     </section>
@@ -603,7 +838,8 @@
           </li>
         </ul>
       </nav>
-      <main class="flex-1 p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+      <main class="flex-1 min-h-screen p-6 md:p-8 bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark overflow-auto" tabindex="0">
+        <p id="global-profile-name-admin" class="text-sm text-secondary dark:text-textDark mb-4"></p>
         <section id="admin-approve-doctors" class="fade-in">
           <h2 class="text-3xl font-semibold mb-6 text-primary">Approve Doctors</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -623,6 +859,78 @@
               <div class="mt-3 flex space-x-2">
                 <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Rohan Mehta Approved!')">Approve</button>
                 <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Rohan Mehta Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Kavya Nair</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Women’s Health</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Kavya Nair Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Kavya Nair Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Suresh Iyer</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Digestive Care</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Suresh Iyer Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Suresh Iyer Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Priyanka Desai</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Skin & Hair</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Priyanka Desai Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Priyanka Desai Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Arvind Kapoor</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Lifestyle Medicine</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Arvind Kapoor Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Arvind Kapoor Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Mehul Shah</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Metabolic Health</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Mehul Shah Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Mehul Shah Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Ayesha Khan</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Stress & Sleep</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Ayesha Khan Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Ayesha Khan Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Nitin Rao</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Respiratory Care</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Nitin Rao Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Nitin Rao Rejected!')">Reject</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Dr. Seema Kulkarni</h3>
+              <p class="text-secondary dark:text-textDark">Specialty: Immunity Care</p>
+              <p class="text-secondary dark:text-textDark">Status: Pending Approval</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition" onclick="alert('Dr. Seema Kulkarni Approved!')">Approve</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Dr. Seema Kulkarni Rejected!')">Reject</button>
               </div>
             </article>
           </div>
@@ -653,6 +961,78 @@
                 <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Priya Sharma\'s record!')">Delete</button>
               </div>
             </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Amit Patel (ID: P003)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Mehta</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Amit Patel\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Amit Patel\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Neha Joshi (ID: P004)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Nair</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Neha Joshi\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Neha Joshi\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Sahil Mehta (ID: P005)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Iyer</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Sahil Mehta\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Sahil Mehta\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Ananya Rao (ID: P006)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Desai</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Ananya Rao\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Ananya Rao\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Vikram Singh (ID: P007)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Kapoor</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Vikram Singh\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Vikram Singh\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Meera Iyer (ID: P008)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Shah</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Meera Iyer\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Meera Iyer\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Arjun Verma (ID: P009)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Khan</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Arjun Verma\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Arjun Verma\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Pooja Nair (ID: P010)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Kulkarni</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Pooja Nair\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Pooja Nair\'s record!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Deepak Yadav (ID: P011)</h3>
+              <p class="text-secondary dark:text-textDark">Assigned Doctor: Dr. Rao</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('View Deepak Yadav\'s full record!')">View Record</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Deepak Yadav\'s record!')">Delete</button>
+              </div>
+            </article>
           </div>
         </section>
 
@@ -681,6 +1061,70 @@
                 <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
               </div>
             </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">PCOS Support: Patient C</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Improved cycle regularity with Pitta-Kapha routine.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Migraine Relief: Patient D</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Reduced migraine frequency with cooling diet plan.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Diabetes Control: Patient E</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Better glucose stability with Kapha-balancing meals.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Thyroid Balance: Patient F</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Improved energy and digestion with routine adherence.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Stress & Sleep: Patient G</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Better sleep quality with Vata-calming evening routine.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Hypertension: Patient H</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Improved BP readings with low-salt mindful plan.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Acne Care: Patient I</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Clearer skin with Pitta-cooling diet and herbs.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Immunity Boost: Patient J</h3>
+              <p class="text-secondary dark:text-textDark">Outcome: Fewer colds with consistent routine and diet.</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Edit Case Study!')">Edit</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Delete Case Study!')">Delete</button>
+              </div>
+            </article>
           </div>
         </section>
 
@@ -699,6 +1143,78 @@
             <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
               <h3 class="text-xl font-semibold mb-1 text-primary">Doctor Review (Dr. Anjali)</h3>
               <p class="text-secondary dark:text-textDark">"Platform is intuitive, patient management is streamlined."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to review!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive review!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Patient Feedback (Neha Joshi)</h3>
+              <p class="text-secondary dark:text-textDark">"Community tips helped me stay consistent with meals."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to feedback!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive feedback!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Doctor Review (Dr. Rohan)</h3>
+              <p class="text-secondary dark:text-textDark">"Diet generator is helpful for quick plans."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to review!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive review!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Patient Feedback (Amit Patel)</h3>
+              <p class="text-secondary dark:text-textDark">"Progress tracker motivates me to follow routine."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to feedback!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive feedback!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Patient Feedback (Meera Iyer)</h3>
+              <p class="text-secondary dark:text-textDark">"Emergency help contact is quick and clear."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to feedback!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive feedback!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Doctor Review (Dr. Kavya)</h3>
+              <p class="text-secondary dark:text-textDark">"Admin approvals are simple and clear."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to review!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive review!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Patient Feedback (Pooja Nair)</h3>
+              <p class="text-secondary dark:text-textDark">"Food scanner suggestions are useful (demo)."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to feedback!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive feedback!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Patient Feedback (Deepak Yadav)</h3>
+              <p class="text-secondary dark:text-textDark">"Payments flow is smooth and receipt download works."</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐⭐</p>
+              <div class="mt-3 flex space-x-2">
+                <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to feedback!')">Respond</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="alert('Archive feedback!')">Archive</button>
+              </div>
+            </article>
+            <article class="p-5 bg-backgroundLight rounded shadow dark:bg-backgroundDark">
+              <h3 class="text-xl font-semibold mb-1 text-primary">Doctor Review (Dr. Suresh)</h3>
+              <p class="text-secondary dark:text-textDark">"Patient record management is easy to browse."</p>
               <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Rating: ⭐⭐⭐⭐</p>
               <div class="mt-3 flex space-x-2">
                 <button class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition" onclick="alert('Respond to review!')">Respond</button>
@@ -737,13 +1253,26 @@
         helpTooltip = document.createElement('div');
         helpTooltip.className =
           'absolute right-4 top-full mt-2 w-64 bg-backgroundLight dark:bg-backgroundDark border border-secondary dark:border-secondary rounded shadow-lg p-3 text-sm z-20';
-        helpTooltip.innerHTML = `
-          <p class="font-semibold mb-1">Having trouble signing in?</p>
-          <ul class="list-disc list-inside space-y-1 text-secondary dark:text-textDark">
-            <li>Use "Forgot password" to reset your credentials</li>
-            <li>Contact support if the issue persists</li>
-          </ul>
-        `;
+        const loginEl = document.getElementById('login-page');
+        const isLoginVisible = loginEl && !loginEl.classList.contains('hidden');
+
+        // IMPORTANT: keep exact login help content as originally required.
+        helpTooltip.innerHTML = isLoginVisible
+          ? `
+            <p class="font-semibold mb-1">Having trouble signing in?</p>
+            <ul class="list-disc list-inside space-y-1 text-secondary dark:text-textDark">
+              <li>Use "Forgot password" to reset your credentials</li>
+              <li>Contact support if the issue persists</li>
+            </ul>
+          `
+          : `
+            <p class="font-semibold mb-1">Need help?</p>
+            <ul class="list-disc list-inside space-y-1 text-secondary dark:text-textDark">
+              <li>Use the left menu to switch sections (Patients, Diet, Payments, Progress).</li>
+              <li>Try interactive features: Diet Generator, Community posts, Emergency contact.</li>
+              <li>If backend is running, profiles and demo data will load automatically.</li>
+            </ul>
+          `;
 
         const header = document.querySelector('header');
         if (header) {
@@ -771,7 +1300,97 @@
     const forgotPasswordButton = document.getElementById('forgot-password');
     const forgotPasswordMessage = document.getElementById('forgot-password-message');
 
-    loginForm.addEventListener('submit', (e) => {
+    let currentUserRole = null;
+    let currentUserProfile = null;
+    let currentUserFoods = null;
+
+    function applyGlobalProfileName() {
+      if (!currentUserProfile) return;
+      const label = currentUserProfile.name || 'User';
+      const doctorEl = document.getElementById('global-profile-name-doctor');
+      const patientEl = document.getElementById('global-profile-name-patient');
+      const adminEl = document.getElementById('global-profile-name-admin');
+      if (doctorEl) doctorEl.textContent = `Logged in as: ${label}`;
+      if (patientEl) patientEl.textContent = `Logged in as: ${label}`;
+      if (adminEl) adminEl.textContent = `Logged in as: ${label}`;
+    }
+
+    function applyDoctorProfile() {
+      const welcomeEl = document.getElementById('doctor-welcome');
+      const summaryEl = document.getElementById('doctor-summary');
+      if (!currentUserProfile) return;
+      if (welcomeEl) {
+        welcomeEl.textContent = `Welcome, ${currentUserProfile.name || 'Doctor'}`;
+      }
+      if (summaryEl) {
+        summaryEl.textContent =
+          `Specialty: ${currentUserProfile.specialty || 'Ayurvedic Physician'} · ` +
+          `Patients: ${currentUserProfile.activePatients || 0}/${currentUserProfile.totalPatients || 0} active · ` +
+          `Foods tracked: ${currentUserProfile.foodsTracked || 0}`;
+      }
+      applyGlobalProfileName();
+    }
+
+    function applyPatientProfile() {
+      const summaryEl = document.getElementById('patient-summary');
+      const progressTextEl = document.getElementById('patient-progress-text');
+      if (!currentUserProfile) return;
+
+      if (summaryEl) {
+        summaryEl.textContent =
+          `${currentUserProfile.name || 'Patient'} · Condition: ${currentUserProfile.primaryCondition || 'Wellness tracking'} · ` +
+          `Foods tracked: ${currentUserProfile.foodsTracked || 0}`;
+      }
+      if (progressTextEl) {
+        const current = currentUserProfile.currentWeightKg;
+        const target = currentUserProfile.targetWeightKg;
+        const compliance = currentUserProfile.weeklyCompliancePercent;
+        const delta = current && target ? (current - target).toFixed(1) : null;
+        progressTextEl.textContent = delta
+          ? `You are ${delta} kg away from your target. Weekly diet compliance: ${compliance || 0}%. Graph below reflects this journey.`
+          : `Weekly diet compliance: ${compliance || 0}%. Graph below reflects your recent progress.`;
+      }
+    }
+
+    async function loadUserRoleAndShowDashboard(defaultRole, displayNameHint, roleHint) {
+      try {
+        if (!window.firebaseAuth) {
+          // Fallback to existing behaviour
+          return defaultRole;
+        }
+        const currentUser = window.firebaseAuth.currentUser;
+        if (!currentUser) {
+          return defaultRole;
+        }
+        const idToken = await currentUser.getIdToken();
+
+        const params = new URLSearchParams();
+        if (displayNameHint) params.set('displayName', displayNameHint);
+        if (roleHint) params.set('roleHint', roleHint);
+
+        const response = await fetch('http://localhost:4000/api/me?' + params.toString(), {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + idToken,
+          },
+        });
+
+        if (!response.ok) {
+          return defaultRole;
+        }
+        const data = await response.json();
+        currentUserRole = data.role || defaultRole;
+        currentUserProfile = data.profile || null;
+        currentUserFoods = data.foods || null;
+      applyGlobalProfileName();
+        return currentUserRole;
+      } catch (error) {
+        console.error('Error loading role from backend:', error);
+        return defaultRole;
+      }
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const userType = userTypeSelect.value.trim();
       const username = usernameInput.value.trim();
@@ -793,18 +1412,37 @@
         return;
       }
 
+      // Ensure we have a Firebase user so backend can personalize data
+      try {
+        if (window.firebaseAuth && !window.firebaseAuth.currentUser) {
+          await window.firebaseAuth.signInAnonymously();
+        }
+      } catch (err) {
+        console.error('Anonymous sign-in failed:', err);
+      }
+
+      // For demo, we still allow any credentials, but if Firebase user exists,
+      // we try to fetch a real role and profile from the backend.
+      const effectiveRole = await loadUserRoleAndShowDashboard(
+        userType || 'patient',
+        username || null,
+        userType || null
+      );
+
       // Redirect to dashboard
       loginPage.classList.add('hidden');
 
-      if (userType === 'doctor') {
+      if (effectiveRole === 'doctor') {
         doctorDashboard.classList.remove('hidden');
         showSection('doctor-patients');
+        applyDoctorProfile();
         document.title = 'SWAASTRIX - Doctor Dashboard';
-      } else if (userType === 'patient') {
+      } else if (effectiveRole === 'patient') {
         patientDashboard.classList.remove('hidden');
         showSection('my-diet');
+        applyPatientProfile();
         document.title = 'SWAASTRIX - Patient Dashboard';
-      } else if (userType === 'admin') { // Handle Admin login
+      } else if (effectiveRole === 'admin') { // Handle Admin login
         adminDashboard.classList.remove('hidden');
         showSection('admin-approve-doctors'); // Default section for Admin
         document.title = 'SWAASTRIX - Admin Dashboard';
@@ -882,18 +1520,27 @@
         const userType = userTypeSelect.value.trim();
         const selectedUserType = userType || 'patient';
 
-        // Redirect to dashboard based on selected role
+        // Try to resolve role using backend + ID token (if available)
+        const effectiveRole = await loadUserRoleAndShowDashboard(
+          selectedUserType,
+          user.displayName || user.email || null,
+          selectedUserType
+        );
+
+        // Redirect to dashboard based on role
         loginPage.classList.add('hidden');
 
-        if (selectedUserType === 'doctor') {
+        if (effectiveRole === 'doctor') {
           doctorDashboard.classList.remove('hidden');
           showSection('doctor-patients');
+          applyDoctorProfile();
           document.title = 'SWAASTRIX - Doctor Dashboard';
-        } else if (selectedUserType === 'patient') {
+        } else if (effectiveRole === 'patient') {
           patientDashboard.classList.remove('hidden');
           showSection('my-diet');
+          applyPatientProfile();
           document.title = 'SWAASTRIX - Patient Dashboard';
-        } else if (selectedUserType === 'admin') {
+        } else if (effectiveRole === 'admin') {
           adminDashboard.classList.remove('hidden');
           showSection('admin-approve-doctors');
           document.title = 'SWAASTRIX - Admin Dashboard';
@@ -970,16 +1617,373 @@
       if (section) section.classList.remove('hidden');
     }
 
-    // Mock button interactions
-    document.addEventListener('click', (e) => {
-      if (e.target.matches('#generate-diet-btn')) {
-        alert('Diet chart generated and displayed above!');
-      } else if (e.target.textContent.includes('Dummy')) {
-        alert('Mock action executed!');
-      } else if (e.target.textContent.includes('Send')) {
-        alert('Question sent to AI!');
+    // Diet generator backend integration (with frontend fallback)
+    const dietForm = document.getElementById('diet-form');
+    const prakritiSelect = document.getElementById('prakriti-select');
+    const dietPlanList = document.getElementById('diet-plan-list');
+
+    if (dietForm && prakritiSelect && dietPlanList) {
+      dietForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        try {
+          const prakriti = prakritiSelect.value || 'vata';
+
+          const useBackend =
+            window.firebaseAuth && window.firebaseAuth.currentUser && window.fetch;
+
+          if (useBackend) {
+            const token = await window.firebaseAuth.currentUser.getIdToken();
+
+            const response = await fetch('http://localhost:4000/api/diet/generate', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+              },
+              body: JSON.stringify({ prakriti }),
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              dietPlanList.innerHTML = '';
+              (data.meals || []).forEach((meal) => {
+                const li = document.createElement('li');
+                li.textContent = `${meal.label}: ${meal.description}`;
+                dietPlanList.appendChild(li);
+              });
+              return;
+            }
+          }
+
+          // Fallback: simple rule-based generator in frontend
+          const basePlans = {
+            vata: [
+              'Warm oatmeal with ghee and soaked nuts',
+              'Root-vegetable stew with rice and ghee',
+              'Herbal tea with ginger and cardamom',
+            ],
+            pitta: [
+              'Cooling cucumber and coriander salad',
+              'Rice with steamed vegetables and ghee',
+              'Coconut water or aloe vera juice',
+            ],
+            kapha: [
+              'Spiced millet porridge (light breakfast)',
+              'Mixed vegetable soup with black pepper',
+              'Warm water with honey and ginger',
+            ],
+          };
+          const key = (prakriti || 'vata').toLowerCase();
+          const meals = basePlans[key] || basePlans.vata;
+          const labels = ['Breakfast', 'Lunch', 'Dinner'];
+
+          dietPlanList.innerHTML = '';
+          meals.forEach((desc, idx) => {
+            const li = document.createElement('li');
+            li.textContent = `${labels[idx]}: ${desc}`;
+            dietPlanList.appendChild(li);
+          });
+        } catch (error) {
+          console.error('Diet generator error:', error);
+        }
+      });
+    }
+
+    // Doctor patient search filtering
+    const doctorPatientSearch = document.getElementById('doctor-patient-search');
+    if (doctorPatientSearch) {
+      doctorPatientSearch.addEventListener('input', () => {
+        const term = doctorPatientSearch.value.trim().toLowerCase();
+        const cards = document.querySelectorAll('#doctor-patients article');
+        cards.forEach((card) => {
+          const text = card.innerText.toLowerCase();
+          const shouldHide = term && !text.includes(term);
+          card.classList.toggle('hidden', shouldHide);
+        });
+      });
+    }
+
+    // Teleconsultation logic based on last patient whose history was opened
+    let currentSelectedPatientName = null;
+    document.querySelectorAll('#doctor-patients article').forEach((card) => {
+      const name = card.getAttribute('data-patient-name') || card.querySelector('h3')?.textContent?.trim() || '';
+      const historyBtn = card.querySelector('.doctor-patient-history');
+      if (historyBtn) {
+        historyBtn.addEventListener('click', () => {
+          currentSelectedPatientName = name || 'selected patient';
+        });
       }
     });
+
+    const teleconsultStart = document.getElementById('teleconsult-start');
+    const teleconsultStatus = document.getElementById('teleconsult-status');
+    if (teleconsultStart && teleconsultStatus) {
+      teleconsultStart.addEventListener('click', () => {
+        const targetName = currentSelectedPatientName || 'selected patient';
+        teleconsultStatus.textContent = `Starting mock video call with ${targetName}...`;
+      });
+    }
+
+    // Doctor payments - generate invoice feedback
+    const generateInvoiceBtn = document.getElementById('doctor-generate-invoice');
+    const invoiceStatus = document.getElementById('doctor-invoice-status');
+    if (generateInvoiceBtn && invoiceStatus) {
+      generateInvoiceBtn.addEventListener('click', () => {
+        invoiceStatus.textContent =
+          'Invoice generated for Ravi Kumar and emailed to ravi.kumar@example.com (demo).';
+      });
+    }
+
+    // Simple in-page AI behavior (no alerts)
+    const doctorAiInput = document.getElementById('doctor-ai-input');
+    const doctorAiThread = document.getElementById('doctor-ai-thread');
+    const patientAiInput = document.getElementById('patient-ai-input');
+    const patientAiThread = document.getElementById('patient-ai-thread');
+    const patientAiSend = document.getElementById('patient-ai-send');
+
+    function appendAiMessage(threadEl, question, role) {
+      if (!threadEl || !question) return;
+      const userBubble = document.createElement('div');
+      userBubble.className = 'p-3 bg-secondary/20 rounded dark:bg-secondary/10';
+      userBubble.textContent = `${role === 'doctor' ? 'Doctor' : 'You'}: ${question}`;
+
+      const aiBubble = document.createElement('div');
+      aiBubble.className = 'p-3 bg-accent/20 rounded';
+      aiBubble.textContent =
+        role === 'doctor'
+          ? 'AI: Based on Ayurveda, prefer warm, freshly cooked meals and avoid heavy, oily food at night.'
+          : 'AI: Focus on light, easily digestible foods and stay hydrated. Avoid very spicy or fried items.';
+
+      threadEl.appendChild(userBubble);
+      threadEl.appendChild(aiBubble);
+    }
+
+    if (doctorAiInput && doctorAiThread) {
+      doctorAiInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const value = doctorAiInput.value.trim();
+          if (!value) return;
+          appendAiMessage(doctorAiThread, value, 'doctor');
+          doctorAiInput.value = '';
+        }
+      });
+    }
+
+    if (patientAiInput && patientAiThread && patientAiSend) {
+      patientAiSend.addEventListener('click', () => {
+        const value = patientAiInput.value.trim();
+        if (!value) return;
+        appendAiMessage(patientAiThread, value, 'patient');
+        patientAiInput.value = '';
+      });
+      patientAiInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const value = patientAiInput.value.trim();
+          if (!value) return;
+          appendAiMessage(patientAiThread, value, 'patient');
+          patientAiInput.value = '';
+        }
+      });
+    }
+
+    // Patient diet chart: logical progress + next step
+    const patientMealList = document.getElementById('patient-meal-list');
+    const patientDietStatus = document.getElementById('patient-diet-status');
+    function updatePatientDietStatus() {
+      if (!patientMealList || !patientDietStatus) return;
+      const checkboxes = patientMealList.querySelectorAll('input[type="checkbox"]');
+      const items = Array.from(checkboxes).map((cb) => ({
+        id: cb.id,
+        checked: cb.checked,
+      }));
+      const completed = items.filter((i) => i.checked).length;
+      const total = items.length;
+      const next = items.find((i) => !i.checked);
+      const nextLabel = next ? document.querySelector(`label[for="${next.id}"]`)?.textContent?.trim() : null;
+
+      if (completed === 0) {
+        patientDietStatus.textContent = 'Start with Breakfast and tick it when completed. Your progress will update here.';
+        return;
+      }
+      if (completed < total) {
+        patientDietStatus.textContent = `Progress: ${completed}/${total} meals completed. Next: ${nextLabel || 'next meal'}.`;
+        return;
+      }
+      patientDietStatus.textContent = `Great job! All ${total}/${total} meals completed today. Keep hydration and sleep consistent.`;
+    }
+    if (patientMealList) {
+      patientMealList.addEventListener('change', updatePatientDietStatus);
+      updatePatientDietStatus();
+    }
+
+    // Patient payments: simple logical flow
+    const patientPayBtn = document.getElementById('patient-pay-btn');
+    const patientReceiptBtn = document.getElementById('patient-receipt-btn');
+    const patientPaymentStatus = document.getElementById('patient-payment-status');
+    let patientPaymentPaid = false;
+
+    if (patientPayBtn && patientPaymentStatus) {
+      patientPayBtn.addEventListener('click', () => {
+        patientPaymentPaid = true;
+        patientPaymentStatus.textContent = 'Payment successful (demo). Status: PAID. Receipt is now available.';
+      });
+    }
+    if (patientReceiptBtn && patientPaymentStatus) {
+      patientReceiptBtn.addEventListener('click', () => {
+        if (!patientPaymentPaid) {
+          patientPaymentStatus.textContent = 'Please complete payment first to download the receipt (demo).';
+          return;
+        }
+        patientPaymentStatus.textContent = 'Receipt downloaded (demo).';
+      });
+    }
+
+    // Community: multiple communities (join + post per community)
+    const communitySelect = document.getElementById('community-select');
+    const communityStatus = document.getElementById('community-status');
+    const communityPostInput = document.getElementById('community-post-input');
+    const communityPostBtn = document.getElementById('community-post-btn');
+    const communityFeed = document.getElementById('community-feed');
+
+    const joinButtons = [
+      { id: 'join-digestive', key: 'digestive', label: 'Digestive Health' },
+      { id: 'join-weight', key: 'weight', label: 'Weight Management' },
+      { id: 'join-diabetes', key: 'diabetes', label: 'Diabetes Care' },
+      { id: 'join-stress', key: 'stress', label: 'Stress & Sleep' },
+    ];
+
+    const communityData = {
+      digestive: {
+        label: 'Digestive Health',
+        joined: false,
+        seed: [
+          'Try warm water after meals for better digestion.',
+          'Avoid very spicy food during acidity flare-ups.',
+        ],
+      },
+      weight: {
+        label: 'Weight Management',
+        joined: false,
+        seed: [
+          'Track meals and sleep together for best results.',
+          'Consistency beats intensity—start small.',
+        ],
+      },
+      diabetes: {
+        label: 'Diabetes Care',
+        joined: false,
+        seed: [
+          'Prefer low-glycemic, high-fiber meals.',
+          'Walk 10–15 minutes after lunch.',
+        ],
+      },
+      stress: {
+        label: 'Stress & Sleep',
+        joined: false,
+        seed: [
+          'Evening routine: warm milk + gentle stretching (if suitable).',
+          'Reduce screen time 30 minutes before sleep.',
+        ],
+      },
+    };
+
+    function renderCommunityFeed(key) {
+      if (!communityFeed) return;
+      const c = communityData[key];
+      if (!c) return;
+      communityFeed.innerHTML = '';
+      c.seed.forEach((msg) => {
+        const li = document.createElement('li');
+        li.className = 'p-3 bg-secondary/10 rounded dark:bg-secondary/10';
+        li.textContent = `${c.label}: ${msg}`;
+        communityFeed.appendChild(li);
+      });
+    }
+
+    function getActiveCommunityKey() {
+      return (communitySelect && communitySelect.value) ? communitySelect.value : 'digestive';
+    }
+
+    joinButtons.forEach((b) => {
+      const btn = document.getElementById(b.id);
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        communityData[b.key].joined = true;
+        if (communityStatus) {
+          communityStatus.textContent = `Joined ${communityData[b.key].label}! You can now post updates there.`;
+        }
+        if (communitySelect) communitySelect.value = b.key;
+        renderCommunityFeed(b.key);
+      });
+    });
+
+    if (communitySelect) {
+      communitySelect.addEventListener('change', () => {
+        const key = getActiveCommunityKey();
+        renderCommunityFeed(key);
+        if (communityStatus) {
+          communityStatus.textContent = communityData[key].joined
+            ? `You are a member of ${communityData[key].label}.`
+            : `Not joined yet. Click Join for ${communityData[key].label} above.`;
+        }
+      });
+      // initial render
+      renderCommunityFeed(getActiveCommunityKey());
+    }
+
+    if (communityPostBtn && communityPostInput && communityFeed) {
+      communityPostBtn.addEventListener('click', () => {
+        const value = communityPostInput.value.trim();
+        if (!value) return;
+        const key = getActiveCommunityKey();
+        const c = communityData[key];
+        if (!c.joined) {
+          if (communityStatus) communityStatus.textContent = `Please join ${c.label} before posting.`;
+          return;
+        }
+        const li = document.createElement('li');
+        li.className = 'p-3 bg-secondary/10 rounded dark:bg-secondary/10';
+        li.textContent = `You (${c.label}): ${value}`;
+        communityFeed.prepend(li);
+        communityPostInput.value = '';
+      });
+    }
+
+    // Emergency: contact doctor
+    const emergencyBtn = document.getElementById('emergency-contact-btn');
+    const emergencyStatus = document.getElementById('emergency-status');
+    if (emergencyBtn && emergencyStatus) {
+      emergencyBtn.addEventListener('click', () => {
+        emergencyStatus.innerHTML = 'Connecting you to on-call doctor (demo). Contact: <span class="font-semibold">+91 90000 00000</span> · Email: <span class="font-semibold">support@swaastrix.com</span>';
+      });
+    }
+
+    // Food scanner: basic logical scan
+    const scannerFile = document.getElementById('scanner-file');
+    const scannerScanBtn = document.getElementById('scanner-scan-btn');
+    const scannerResult = document.getElementById('scanner-result');
+    if (scannerScanBtn && scannerResult) {
+      scannerScanBtn.addEventListener('click', () => {
+        if (!scannerFile || !scannerFile.files || scannerFile.files.length === 0) {
+          scannerResult.textContent = 'Please upload a food image first, then click scan.';
+          return;
+        }
+        const fileName = scannerFile.files[0].name;
+        scannerResult.textContent = `Scanned "${fileName}" (demo). Suggestion: prefer warm spices if digestion is low; avoid very spicy items if acidity is high.`;
+      });
+    }
+
+    // Voice assistant: demo capture
+    const voiceBtn = document.getElementById('voice-btn');
+    const voiceStatus = document.getElementById('voice-status');
+    if (voiceBtn && voiceStatus) {
+      voiceBtn.addEventListener('click', () => {
+        voiceStatus.textContent = 'Voice captured (demo): "Diet for acidity and bloating?"';
+      });
+    }
 
     // Initialize
     window.addEventListener('load', () => {

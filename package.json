@@ -5,12 +5,17 @@
   "scripts": {
     "start": "powershell -ExecutionPolicy Bypass -File start-server-script.ps1",
     "dev": "powershell -ExecutionPolicy Bypass -File start-server-script.ps1",
-    "stop": "powershell -ExecutionPolicy Bypass -File stop-server.ps1"
+    "stop": "powershell -ExecutionPolicy Bypass -File stop-server.ps1",
+    "backend": "node server/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase": "^12.8.0"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase": "^12.8.0",
+    "firebase-admin": "^12.6.0"
   }
 }
