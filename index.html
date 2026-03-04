@@ -41,11 +41,7 @@
 <body class="bg-backgroundLight text-textLight dark:bg-backgroundDark dark:text-textDark transition-all overflow-hidden">
   <div id="app" class="min-h-screen grid grid-rows-[auto,1fr]">
     <!-- Header/Navbar -->
-<<<<<<< HEAD
-    <header class="flex justify-between items-center p-3 md:p-4 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900 relative">
-=======
     <header class="flex justify-between items-center p-4 h-16 bg-white shadow dark:bg-backgroundDark dark:shadow-gray-900 z-10">
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
       <div class="flex items-center">
         <img
           src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/874d8959-696f-4c71-8dee-5e18d48de5ba.png"
@@ -62,15 +58,6 @@
         >
           Dark Mode
         </button>
-<<<<<<< HEAD
-        <button
-          id="help-button"
-          class="px-3 py-2 border border-secondary rounded bg-backgroundLight text-textLight hover:bg-backgroundLight/80 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-backgroundDark dark:text-textDark dark:border-secondary"
-          type="button"
-        >
-          Help
-        </button>
-=======
         <div class="relative">
           <button
             id="help-button"
@@ -91,19 +78,14 @@
             <p class="mb-1">&gt; Use "Forgot Password" to reset your credentials.</p>
             <p>&gt; Contact support if the issue persists</p>
           </div>
-        </div>  
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
+        </div>
       </div>
     </header>
 
     <!-- Login Page -->
     <main
       id="login-page"
-<<<<<<< HEAD
-      class="flex-grow min-h-screen flex items-center justify-center bg-gradient-to-r from-primary to-accent dark:from-backgroundDark dark:to-secondary fade-in"
-=======
       class="flex items-center justify-center bg-gradient-to-r from-primary to-accent dark:from-backgroundDark dark:to-secondary fade-in h-full overflow-hidden"
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
     >
       <section
         class="bg-backgroundLight p-4 md:p-5 rounded-lg shadow-lg w-full max-w-md dark:bg-backgroundDark"
@@ -139,13 +121,8 @@
             required
             aria-required="true"
           />
-<<<<<<< HEAD
-
-          <label for="password" class="block text-sm font-medium">Password</label>
-=======
           
           <label for="password" class="block font-medium">Password</label>
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
           <input
             type="password"
             id="password"
@@ -154,28 +131,8 @@
             required
             aria-required="true"
           />
-<<<<<<< HEAD
-
-          <div class="flex justify-end">
-            <button
-              type="button"
-              id="forgot-password"
-              class="text-xs text-secondary dark:text-textDark hover:underline"
-            >
-              Forgot password?
-            </button>
-          </div>
-
-          <p
-            id="forgot-password-message"
-            class="text-xs text-secondary dark:text-textDark mt-1 min-h-[1rem]"
-            aria-live="polite"
-          ></p>
-
-=======
           <a id="forgot-password-link" href="#" class="block text-left text-sm text-secondary hover:text-primary">Forgot Password?</a>
           <p id="reset-message" class="text-sm mt-1 hidden"></p>
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
           <button
             type="submit"
             class="w-full p-2.5 bg-primary text-white rounded font-semibold hover:bg-primary/90 transition"
@@ -1395,61 +1352,6 @@ document.querySelector('#chatbot button')?.addEventListener('click', async () =>
       body.classList.toggle('dark');
       themeToggle.textContent = body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
     });
-<<<<<<< HEAD
-
-    // Help tooltip/modal (compact, no overflow)
-    const helpButton = document.getElementById('help-button');
-    let helpTooltip;
-
-    if (helpButton) {
-      helpButton.addEventListener('click', (event) => {
-        event.stopPropagation();
-
-        if (helpTooltip && helpTooltip.parentNode) {
-          helpTooltip.remove();
-          helpTooltip = null;
-          return;
-        }
-
-        helpTooltip = document.createElement('div');
-        helpTooltip.className =
-          'absolute right-4 top-full mt-2 w-64 bg-backgroundLight dark:bg-backgroundDark border border-secondary dark:border-secondary rounded shadow-lg p-3 text-sm z-20';
-        const loginEl = document.getElementById('login-page');
-        const isLoginVisible = loginEl && !loginEl.classList.contains('hidden');
-
-        // IMPORTANT: keep exact login help content as originally required.
-        helpTooltip.innerHTML = isLoginVisible
-          ? `
-            <p class="font-semibold mb-1">Having trouble signing in?</p>
-            <ul class="list-disc list-inside space-y-1 text-secondary dark:text-textDark">
-              <li>Use "Forgot password" to reset your credentials</li>
-              <li>Contact support if the issue persists</li>
-            </ul>
-          `
-          : `
-            <p class="font-semibold mb-1">Need help?</p>
-            <ul class="list-disc list-inside space-y-1 text-secondary dark:text-textDark">
-              <li>Use the left menu to switch sections (Patients, Diet, Payments, Progress).</li>
-              <li>Try interactive features: Diet Generator, Community posts, Emergency contact.</li>
-              <li>If backend is running, profiles and demo data will load automatically.</li>
-            </ul>
-          `;
-
-        const header = document.querySelector('header');
-        if (header) {
-          header.appendChild(helpTooltip);
-        }
-      });
-
-      document.addEventListener('click', () => {
-        if (helpTooltip && helpTooltip.parentNode) {
-          helpTooltip.remove();
-          helpTooltip = null;
-        }
-      });
-    }
-
-=======
 </script>
     <!-- Help popover (replaces language selector) -->
   <script>
@@ -1472,7 +1374,6 @@ document.querySelector('#chatbot button')?.addEventListener('click', async () =>
   }
 </script>
  <script>
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
     // Login functionality - Fixed
     const loginForm = document.getElementById('login-form');
     const loginPage = document.getElementById('login-page');
@@ -1482,9 +1383,8 @@ document.querySelector('#chatbot button')?.addEventListener('click', async () =>
     const userTypeSelect = document.getElementById('user-type');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password'); // Renamed from otpInput
-<<<<<<< HEAD
-    const forgotPasswordButton = document.getElementById('forgot-password');
-    const forgotPasswordMessage = document.getElementById('forgot-password-message');
+    const forgotLink = document.getElementById('forgot-password-link');
+    const resetMsg = document.getElementById('reset-message');
 
     let currentUserRole = null;
     let currentUserProfile = null;
@@ -1576,12 +1476,7 @@ document.querySelector('#chatbot button')?.addEventListener('click', async () =>
       }
     }
 
-    loginForm.addEventListener('submit', async (e) => {
-=======
     // Forgot Password: Firebase sendPasswordResetEmail (inline success/error, no redirect)
-    const forgotLink = document.getElementById('forgot-password-link');
-    const resetMsg = document.getElementById('reset-message');
-    
     if (forgotLink) {
       forgotLink.addEventListener('click', async (e) => {
         e.preventDefault();
@@ -1615,8 +1510,7 @@ document.querySelector('#chatbot button')?.addEventListener('click', async () =>
         }
       });
     }
-    loginForm.addEventListener('submit', (e) => {
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const userType = userTypeSelect.value.trim();
       const username = usernameInput.value.trim();
@@ -1657,13 +1551,8 @@ document.querySelector('#chatbot button')?.addEventListener('click', async () =>
 
       // Redirect to dashboard
       loginPage.classList.add('hidden');
-<<<<<<< HEAD
-
-      if (effectiveRole === 'doctor') {
-=======
-document.body.classList.remove('overflow-hidden');
+      document.body.classList.remove('overflow-hidden');
       if (userType === 'doctor') {
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
         doctorDashboard.classList.remove('hidden');
         showSection('doctor-patients');
         applyDoctorProfile();
@@ -1680,170 +1569,32 @@ document.body.classList.remove('overflow-hidden');
       }
     });
 
-<<<<<<< HEAD
-    // Forgot password with Firebase Auth
-    if (forgotPasswordButton && forgotPasswordMessage) {
-      forgotPasswordButton.addEventListener('click', async () => {
-        const email = usernameInput.value.trim();
-        forgotPasswordMessage.textContent = '';
-
-        if (!email) {
-          forgotPasswordMessage.textContent = 'Enter your email/username above before requesting a reset.';
-          return;
-        }
-
-        if (!window.firebaseAuth) {
-          forgotPasswordMessage.textContent = 'Password reset is unavailable. Please try again later.';
-          return;
-        }
-
-        try {
-          await window.firebaseAuth.sendPasswordResetEmail(email);
-          forgotPasswordMessage.textContent = 'Password reset email sent. Check your inbox.';
-        } catch (error) {
-          console.error('Forgot password error:', error);
-          if (error.code === 'auth/user-not-found') {
-            forgotPasswordMessage.textContent = 'No account found for this email.';
-          } else if (error.code === 'auth/invalid-email') {
-            forgotPasswordMessage.textContent = 'Please enter a valid email address.';
-          } else {
-            forgotPasswordMessage.textContent = 'Unable to send reset email. Please try again later.';
-          }
-        }
-      });
-    }
-
     // Google Sign-In functionality with Firebase Auth
-    // Uses signInWithPopup for immediate email chooser popup
     const handleGoogleSignIn = async () => {
       try {
-        console.log('🔵 Google Sign-In button clicked');
-        
-        // Ensure Firebase is initialized
         if (!window.firebaseAuth || !window.googleProvider) {
-          console.error('❌ Firebase not initialized');
-          alert('Firebase is not initialized. Please check your configuration in firebase.js and ensure Firebase SDK is loaded.');
+          alert('Firebase is not initialized. Please check your configuration.');
           return;
         }
-
-        // Check if Firebase config is valid
         if (window.firebaseAuth.app.options.apiKey === 'YOUR_API_KEY' || !window.firebaseAuth.app.options.apiKey) {
-          alert('⚠️ Firebase API Key not configured! Please update firebase.js with your Firebase project configuration.\n\nGet your config from: Firebase Console > Project Settings > Your apps > Web App');
+          alert('Firebase API Key not configured.');
           return;
         }
-
-        // STEP 1: FORCE POPUP (MOST IMPORTANT) - Using signInWithPopup, NOT redirect
-        // ✅ CORRECT: signInWithPopup opens popup immediately
-        // ❌ WRONG: signInWithRedirect would cause handler page redirect
-        
-        console.log('✅ Triggering Google Sign-In popup...');
-        console.log('🌐 Auth domain:', window.firebaseAuth.app.options.authDomain);
-        console.log('📋 Using signInWithPopup (popup method) - NOT redirect');
-        
-        // Immediately trigger popup - no delays, no extra logic
-        // This opens Google email chooser in a popup window
-        const result = await window.firebaseAuth.signInWithPopup(window.googleProvider);
-        const user = result.user;
-
-        console.log('✅ Google Sign-In successful!');
-        console.log('👤 User:', user.email, user.displayName);
-
-        // Get selected user type or default to 'patient'
-        const userType = userTypeSelect.value.trim();
-        const selectedUserType = userType || 'patient';
-
-        // Try to resolve role using backend + ID token (if available)
-        const effectiveRole = await loadUserRoleAndShowDashboard(
-          selectedUserType,
-          user.displayName || user.email || null,
-          selectedUserType
-        );
-
-        // Redirect to dashboard based on role
+        await window.firebaseAuth.signInWithPopup(window.googleProvider);
+        const selectedUserType = (userTypeSelect.value.trim() || 'patient');
         loginPage.classList.add('hidden');
-
-        if (effectiveRole === 'doctor') {
+        document.body.classList.remove('overflow-hidden');
+        if (selectedUserType === 'doctor') {
           doctorDashboard.classList.remove('hidden');
           showSection('doctor-patients');
-          applyDoctorProfile();
           document.title = 'SWAASTRIX - Doctor Dashboard';
-        } else if (effectiveRole === 'patient') {
+        } else if (selectedUserType === 'patient') {
           patientDashboard.classList.remove('hidden');
           showSection('my-diet');
-          applyPatientProfile();
           document.title = 'SWAASTRIX - Patient Dashboard';
-        } else if (effectiveRole === 'admin') {
+        } else if (selectedUserType === 'admin') {
           adminDashboard.classList.remove('hidden');
           showSection('admin-approve-doctors');
-          document.title = 'SWAASTRIX - Admin Dashboard';
-        }
-      } catch (error) {
-        console.error('❌ Google Sign-In Error:', error);
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
-        
-        if (error.code === 'auth/popup-closed-by-user') {
-          // User closed the popup - no need to show error
-          console.log('ℹ️ User closed the popup');
-          return;
-        }
-        if (error.code === 'auth/popup-blocked') {
-          alert('⚠️ Popup was blocked. Please allow popups for this site and try again.');
-          return;
-        }
-        if (error.code === 'auth/unauthorized-domain') {
-          const currentDomain = window.location.hostname;
-          const currentPort = window.location.port ? ':' + window.location.port : '';
-          const fullDomain = currentDomain + currentPort;
-          
-          console.error('❌ Unauthorized domain:', fullDomain);
-          console.error('📋 Add this domain to Firebase Console:');
-          console.error('   1. Go to: Firebase Console > Authentication > Settings');
-          console.error('   2. Scroll to "Authorized domains"');
-          console.error('   3. Click "Add domain"');
-          console.error('   4. Add:', currentDomain === 'localhost' ? 'localhost' : currentDomain);
-          
-          alert(`⚠️ Domain not authorized!\n\nCurrent domain: ${fullDomain}\n\nPlease add "${currentDomain === 'localhost' ? 'localhost' : currentDomain}" to:\nFirebase Console > Authentication > Settings > Authorized domains\n\nNote: For localhost, just add "localhost" (port not needed)`);
-          return;
-        }
-        if (error.code === 'auth/operation-not-allowed') {
-          alert('⚠️ Google Sign-In is not enabled. Please enable it in Firebase Console > Authentication > Sign-in method');
-          return;
-        }
-        if (error.code === 'auth/invalid-api-key' || error.code === 'auth/api-key-not-valid') {
-          alert('⚠️ Invalid Firebase API Key. Please check your firebase.js configuration.');
-          return;
-        }
-        
-        // Show user-friendly error for other errors
-        alert('Google Sign-In failed: ' + (error.message || 'Please try again or use regular login.'));
-=======
-   
-      const handleGoogleSignIn = async () => {
-        try {
-          if (!window.firebaseAuth || !window.googleProvider) {
-            alert('Firebase is not initialized. Please check your configuration.');
-            return;
-          }
-          if (window.firebaseAuth.app.options.apiKey === 'YOUR_API_KEY' || !window.firebaseAuth.app.options.apiKey) {
-            alert('Firebase API Key not configured.');
-            return;
-          }
-          await window.firebaseAuth.signInWithPopup(window.googleProvider);
-          const selectedUserType = (userTypeSelect.value.trim() || 'patient');
-          loginPage.classList.add('hidden');
-          document.body.classList.remove('overflow-hidden');
-          if (selectedUserType === 'doctor') {
-            doctorDashboard.classList.remove('hidden');
-            showSection('doctor-patients');
-            document.title = 'SWAASTRIX - Doctor Dashboard';
-          } else if (selectedUserType === 'patient') {
-            patientDashboard.classList.remove('hidden');
-            showSection('my-diet');
-            document.title = 'SWAASTRIX - Patient Dashboard';
-          } else if (selectedUserType === 'admin') {
-            adminDashboard.classList.remove('hidden');
-            showSection('admin-approve-doctors');
             document.title = 'SWAASTRIX - Admin Dashboard';
           }
         } catch (error) {
@@ -1854,7 +1605,7 @@ document.body.classList.remove('overflow-hidden');
           if (error.code === 'auth/invalid-api-key' || error.code === 'auth/api-key-not-valid') { alert('Invalid Firebase API Key.'); return; }
           alert('Google Sign-In failed. Please try again or use regular login.');
         }
-      };
+      }
     
       const googleSignInBtn = document.getElementById('google-signin-btn');
       if (googleSignInBtn) {
@@ -1864,8 +1615,8 @@ document.body.classList.remove('overflow-hidden');
           const btn = document.getElementById('google-signin-btn');
           if (btn) btn.addEventListener('click', handleGoogleSignIn);
         });
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
       }
+
       // Section switcher for dashboards
 window.showSection = function(id) {
   const containers = ['doctor-dashboard', 'patient-dashboard', 'admin-dashboard'];
@@ -1917,399 +1668,14 @@ const API_BASE = 'http://localhost:5000/api';
     } catch (err) {
       alert('Failed to generate diet. Please try again.');
     }
-<<<<<<< HEAD
-
-    // Show/hide dashboard sections
-    function showSection(sectionId) {
-      // Hide all dashboard sections
-      document.querySelectorAll('#doctor-dashboard main section').forEach(s => s.classList.add('hidden'));
-      document.querySelectorAll('#patient-dashboard main section').forEach(s => s.classList.add('hidden'));
-      document.querySelectorAll('#admin-dashboard main section').forEach(s => s.classList.add('hidden')); // Hide admin sections
-
-      // Show requested section if exists
-      const section = document.getElementById(sectionId);
-      if (section) section.classList.remove('hidden');
-    }
-
-    // Diet generator backend integration (with frontend fallback)
-    const dietForm = document.getElementById('diet-form');
-    const prakritiSelect = document.getElementById('prakriti-select');
-    const dietPlanList = document.getElementById('diet-plan-list');
-
-    if (dietForm && prakritiSelect && dietPlanList) {
-      dietForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        try {
-          const prakriti = prakritiSelect.value || 'vata';
-
-          const useBackend =
-            window.firebaseAuth && window.firebaseAuth.currentUser && window.fetch;
-
-          if (useBackend) {
-            const token = await window.firebaseAuth.currentUser.getIdToken();
-
-            const response = await fetch('http://localhost:4000/api/diet/generate', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
-              },
-              body: JSON.stringify({ prakriti }),
-            });
-
-            if (response.ok) {
-              const data = await response.json();
-              dietPlanList.innerHTML = '';
-              (data.meals || []).forEach((meal) => {
-                const li = document.createElement('li');
-                li.textContent = `${meal.label}: ${meal.description}`;
-                dietPlanList.appendChild(li);
-              });
-              return;
-            }
-          }
-
-          // Fallback: simple rule-based generator in frontend
-          const basePlans = {
-            vata: [
-              'Warm oatmeal with ghee and soaked nuts',
-              'Root-vegetable stew with rice and ghee',
-              'Herbal tea with ginger and cardamom',
-            ],
-            pitta: [
-              'Cooling cucumber and coriander salad',
-              'Rice with steamed vegetables and ghee',
-              'Coconut water or aloe vera juice',
-            ],
-            kapha: [
-              'Spiced millet porridge (light breakfast)',
-              'Mixed vegetable soup with black pepper',
-              'Warm water with honey and ginger',
-            ],
-          };
-          const key = (prakriti || 'vata').toLowerCase();
-          const meals = basePlans[key] || basePlans.vata;
-          const labels = ['Breakfast', 'Lunch', 'Dinner'];
-
-          dietPlanList.innerHTML = '';
-          meals.forEach((desc, idx) => {
-            const li = document.createElement('li');
-            li.textContent = `${labels[idx]}: ${desc}`;
-            dietPlanList.appendChild(li);
-          });
-        } catch (error) {
-          console.error('Diet generator error:', error);
-        }
-      });
-    }
-
-    // Doctor patient search filtering
-    const doctorPatientSearch = document.getElementById('doctor-patient-search');
-    if (doctorPatientSearch) {
-      doctorPatientSearch.addEventListener('input', () => {
-        const term = doctorPatientSearch.value.trim().toLowerCase();
-        const cards = document.querySelectorAll('#doctor-patients article');
-        cards.forEach((card) => {
-          const text = card.innerText.toLowerCase();
-          const shouldHide = term && !text.includes(term);
-          card.classList.toggle('hidden', shouldHide);
-        });
-      });
-    }
-
-    // Teleconsultation logic based on last patient whose history was opened
-    let currentSelectedPatientName = null;
-    document.querySelectorAll('#doctor-patients article').forEach((card) => {
-      const name = card.getAttribute('data-patient-name') || card.querySelector('h3')?.textContent?.trim() || '';
-      const historyBtn = card.querySelector('.doctor-patient-history');
-      if (historyBtn) {
-        historyBtn.addEventListener('click', () => {
-          currentSelectedPatientName = name || 'selected patient';
-        });
-      }
-    });
-
-    const teleconsultStart = document.getElementById('teleconsult-start');
-    const teleconsultStatus = document.getElementById('teleconsult-status');
-    if (teleconsultStart && teleconsultStatus) {
-      teleconsultStart.addEventListener('click', () => {
-        const targetName = currentSelectedPatientName || 'selected patient';
-        teleconsultStatus.textContent = `Starting mock video call with ${targetName}...`;
-      });
-    }
-
-    // Doctor payments - generate invoice feedback
-    const generateInvoiceBtn = document.getElementById('doctor-generate-invoice');
-    const invoiceStatus = document.getElementById('doctor-invoice-status');
-    if (generateInvoiceBtn && invoiceStatus) {
-      generateInvoiceBtn.addEventListener('click', () => {
-        invoiceStatus.textContent =
-          'Invoice generated for Ravi Kumar and emailed to ravi.kumar@example.com (demo).';
-      });
-    }
-
-    // Simple in-page AI behavior (no alerts)
-    const doctorAiInput = document.getElementById('doctor-ai-input');
-    const doctorAiThread = document.getElementById('doctor-ai-thread');
-    const patientAiInput = document.getElementById('patient-ai-input');
-    const patientAiThread = document.getElementById('patient-ai-thread');
-    const patientAiSend = document.getElementById('patient-ai-send');
-
-    function appendAiMessage(threadEl, question, role) {
-      if (!threadEl || !question) return;
-      const userBubble = document.createElement('div');
-      userBubble.className = 'p-3 bg-secondary/20 rounded dark:bg-secondary/10';
-      userBubble.textContent = `${role === 'doctor' ? 'Doctor' : 'You'}: ${question}`;
-
-      const aiBubble = document.createElement('div');
-      aiBubble.className = 'p-3 bg-accent/20 rounded';
-      aiBubble.textContent =
-        role === 'doctor'
-          ? 'AI: Based on Ayurveda, prefer warm, freshly cooked meals and avoid heavy, oily food at night.'
-          : 'AI: Focus on light, easily digestible foods and stay hydrated. Avoid very spicy or fried items.';
-
-      threadEl.appendChild(userBubble);
-      threadEl.appendChild(aiBubble);
-    }
-
-    if (doctorAiInput && doctorAiThread) {
-      doctorAiInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const value = doctorAiInput.value.trim();
-          if (!value) return;
-          appendAiMessage(doctorAiThread, value, 'doctor');
-          doctorAiInput.value = '';
-        }
-      });
-    }
-
-    if (patientAiInput && patientAiThread && patientAiSend) {
-      patientAiSend.addEventListener('click', () => {
-        const value = patientAiInput.value.trim();
-        if (!value) return;
-        appendAiMessage(patientAiThread, value, 'patient');
-        patientAiInput.value = '';
-      });
-      patientAiInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const value = patientAiInput.value.trim();
-          if (!value) return;
-          appendAiMessage(patientAiThread, value, 'patient');
-          patientAiInput.value = '';
-        }
-      });
-    }
-
-    // Patient diet chart: logical progress + next step
-    const patientMealList = document.getElementById('patient-meal-list');
-    const patientDietStatus = document.getElementById('patient-diet-status');
-    function updatePatientDietStatus() {
-      if (!patientMealList || !patientDietStatus) return;
-      const checkboxes = patientMealList.querySelectorAll('input[type="checkbox"]');
-      const items = Array.from(checkboxes).map((cb) => ({
-        id: cb.id,
-        checked: cb.checked,
-      }));
-      const completed = items.filter((i) => i.checked).length;
-      const total = items.length;
-      const next = items.find((i) => !i.checked);
-      const nextLabel = next ? document.querySelector(`label[for="${next.id}"]`)?.textContent?.trim() : null;
-
-      if (completed === 0) {
-        patientDietStatus.textContent = 'Start with Breakfast and tick it when completed. Your progress will update here.';
-        return;
-      }
-      if (completed < total) {
-        patientDietStatus.textContent = `Progress: ${completed}/${total} meals completed. Next: ${nextLabel || 'next meal'}.`;
-        return;
-      }
-      patientDietStatus.textContent = `Great job! All ${total}/${total} meals completed today. Keep hydration and sleep consistent.`;
-    }
-    if (patientMealList) {
-      patientMealList.addEventListener('change', updatePatientDietStatus);
-      updatePatientDietStatus();
-    }
-
-    // Patient payments: simple logical flow
-    const patientPayBtn = document.getElementById('patient-pay-btn');
-    const patientReceiptBtn = document.getElementById('patient-receipt-btn');
-    const patientPaymentStatus = document.getElementById('patient-payment-status');
-    let patientPaymentPaid = false;
-
-    if (patientPayBtn && patientPaymentStatus) {
-      patientPayBtn.addEventListener('click', () => {
-        patientPaymentPaid = true;
-        patientPaymentStatus.textContent = 'Payment successful (demo). Status: PAID. Receipt is now available.';
-      });
-    }
-    if (patientReceiptBtn && patientPaymentStatus) {
-      patientReceiptBtn.addEventListener('click', () => {
-        if (!patientPaymentPaid) {
-          patientPaymentStatus.textContent = 'Please complete payment first to download the receipt (demo).';
-          return;
-        }
-        patientPaymentStatus.textContent = 'Receipt downloaded (demo).';
-      });
-    }
-
-    // Community: multiple communities (join + post per community)
-    const communitySelect = document.getElementById('community-select');
-    const communityStatus = document.getElementById('community-status');
-    const communityPostInput = document.getElementById('community-post-input');
-    const communityPostBtn = document.getElementById('community-post-btn');
-    const communityFeed = document.getElementById('community-feed');
-
-    const joinButtons = [
-      { id: 'join-digestive', key: 'digestive', label: 'Digestive Health' },
-      { id: 'join-weight', key: 'weight', label: 'Weight Management' },
-      { id: 'join-diabetes', key: 'diabetes', label: 'Diabetes Care' },
-      { id: 'join-stress', key: 'stress', label: 'Stress & Sleep' },
-    ];
-
-    const communityData = {
-      digestive: {
-        label: 'Digestive Health',
-        joined: false,
-        seed: [
-          'Try warm water after meals for better digestion.',
-          'Avoid very spicy food during acidity flare-ups.',
-        ],
-      },
-      weight: {
-        label: 'Weight Management',
-        joined: false,
-        seed: [
-          'Track meals and sleep together for best results.',
-          'Consistency beats intensity—start small.',
-        ],
-      },
-      diabetes: {
-        label: 'Diabetes Care',
-        joined: false,
-        seed: [
-          'Prefer low-glycemic, high-fiber meals.',
-          'Walk 10–15 minutes after lunch.',
-        ],
-      },
-      stress: {
-        label: 'Stress & Sleep',
-        joined: false,
-        seed: [
-          'Evening routine: warm milk + gentle stretching (if suitable).',
-          'Reduce screen time 30 minutes before sleep.',
-        ],
-      },
-    };
-
-    function renderCommunityFeed(key) {
-      if (!communityFeed) return;
-      const c = communityData[key];
-      if (!c) return;
-      communityFeed.innerHTML = '';
-      c.seed.forEach((msg) => {
-        const li = document.createElement('li');
-        li.className = 'p-3 bg-secondary/10 rounded dark:bg-secondary/10';
-        li.textContent = `${c.label}: ${msg}`;
-        communityFeed.appendChild(li);
-      });
-    }
-
-    function getActiveCommunityKey() {
-      return (communitySelect && communitySelect.value) ? communitySelect.value : 'digestive';
-    }
-
-    joinButtons.forEach((b) => {
-      const btn = document.getElementById(b.id);
-      if (!btn) return;
-      btn.addEventListener('click', () => {
-        communityData[b.key].joined = true;
-        if (communityStatus) {
-          communityStatus.textContent = `Joined ${communityData[b.key].label}! You can now post updates there.`;
-        }
-        if (communitySelect) communitySelect.value = b.key;
-        renderCommunityFeed(b.key);
-      });
-    });
-
-    if (communitySelect) {
-      communitySelect.addEventListener('change', () => {
-        const key = getActiveCommunityKey();
-        renderCommunityFeed(key);
-        if (communityStatus) {
-          communityStatus.textContent = communityData[key].joined
-            ? `You are a member of ${communityData[key].label}.`
-            : `Not joined yet. Click Join for ${communityData[key].label} above.`;
-        }
-      });
-      // initial render
-      renderCommunityFeed(getActiveCommunityKey());
-    }
-
-    if (communityPostBtn && communityPostInput && communityFeed) {
-      communityPostBtn.addEventListener('click', () => {
-        const value = communityPostInput.value.trim();
-        if (!value) return;
-        const key = getActiveCommunityKey();
-        const c = communityData[key];
-        if (!c.joined) {
-          if (communityStatus) communityStatus.textContent = `Please join ${c.label} before posting.`;
-          return;
-        }
-        const li = document.createElement('li');
-        li.className = 'p-3 bg-secondary/10 rounded dark:bg-secondary/10';
-        li.textContent = `You (${c.label}): ${value}`;
-        communityFeed.prepend(li);
-        communityPostInput.value = '';
-      });
-    }
-
-    // Emergency: contact doctor
-    const emergencyBtn = document.getElementById('emergency-contact-btn');
-    const emergencyStatus = document.getElementById('emergency-status');
-    if (emergencyBtn && emergencyStatus) {
-      emergencyBtn.addEventListener('click', () => {
-        emergencyStatus.innerHTML = 'Connecting you to on-call doctor (demo). Contact: <span class="font-semibold">+91 90000 00000</span> · Email: <span class="font-semibold">support@swaastrix.com</span>';
-      });
-    }
-
-    // Food scanner: basic logical scan
-    const scannerFile = document.getElementById('scanner-file');
-    const scannerScanBtn = document.getElementById('scanner-scan-btn');
-    const scannerResult = document.getElementById('scanner-result');
-    if (scannerScanBtn && scannerResult) {
-      scannerScanBtn.addEventListener('click', () => {
-        if (!scannerFile || !scannerFile.files || scannerFile.files.length === 0) {
-          scannerResult.textContent = 'Please upload a food image first, then click scan.';
-          return;
-        }
-        const fileName = scannerFile.files[0].name;
-        scannerResult.textContent = `Scanned "${fileName}" (demo). Suggestion: prefer warm spices if digestion is low; avoid very spicy items if acidity is high.`;
-      });
-    }
-
-    // Voice assistant: demo capture
-    const voiceBtn = document.getElementById('voice-btn');
-    const voiceStatus = document.getElementById('voice-status');
-    if (voiceBtn && voiceStatus) {
-      voiceBtn.addEventListener('click', () => {
-        voiceStatus.textContent = 'Voice captured (demo): "Diet for acidity and bloating?"';
-      });
-    }
-
-    // Initialize
-    window.addEventListener('load', () => {
-      // No alerts on load
-    });
-  </script>
-=======
   });
 })();
-</script>
+
+// Initialize
+window.addEventListener('load', () => {
+  // No alerts on load
+});
+  </script>
     </div>
-  
->>>>>>> 14d9c4f8d8ccce31c02e6b7ae3d0c55f89cbfa36
-</body>
+  </body>
 </html>
